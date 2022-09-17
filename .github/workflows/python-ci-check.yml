@@ -17,8 +17,6 @@ jobs:
         uses: actions/checkout@main
       - name: Install pylint
         run: pip3 install pylint==2.15.2
-      - name: List dirs
-        run: ls $GITHUB_WORKSPACE/app-code/
       - name: Run linter
         run: pylint $GITHUB_WORKSPACE/app-code/app.py
 
