@@ -76,6 +76,6 @@ where `WEATHER_TOKEN` - API token for 3rd-party weather forecast API
 
 **Check it**
 
-```sh 
+```sh
 curl http://localhost:8082/ping
 ```

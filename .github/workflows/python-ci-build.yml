@@ -13,11 +13,11 @@ on:
     inputs:
       print_tags:
         description: 'True to print to STDOUT'
-        required: true 
+        required: true
         type: boolean
       tags:
         description: 'Image tag'
-        required: true 
+        required: true
         type: string
 
 jobs:
@@ -28,9 +28,9 @@ jobs:
     - uses: actions/checkout@v3
     - name: print tags
       if: ${{ inputs.print_tags }}
-      run: echo  The tags are ${{ inputs.tags }} 
+      run: echo  The tags are ${{ inputs.tags }}
     - name: Build the Docker image
-      run: docker build app-code/ --file app-code/Dockerfile --tag czm41k/weather_checker:${{ inputs.tags }} 
-      
+      run: docker build app-code/ --file app-code/Dockerfile --tag czm41k/weather_checker:${{ inputs.tags }}
+
 ## TODO - upload image job
 ...
