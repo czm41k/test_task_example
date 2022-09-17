@@ -8,6 +8,10 @@ All components described at:
 
 ### Pipeline structure
 
+Based on Github Workflows
+
+![pipeline](/docs/pipeline.png)
+
 ### Local CI settings
 
 It's considered to use `pre-commit` before checking your work to VCS.

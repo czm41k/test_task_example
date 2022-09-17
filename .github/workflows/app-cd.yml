@@ -1,0 +1,26 @@
+---
+name: Deploy app with helm
+on:
+  workflow_run: 
+    workflows: ["Build image"]
+    types: ["completed"]
+  workflow_dispatch:
+
+jobs:
+  deployment:
+    runs-on: 'ubuntu-latest'
+    steps:
+    - uses: actions/checkout@main
+    - name: 'Deploy'
+  #     uses: 'deliverybot/helm@main'
+  #     with:
+  #       release: 'python-webserver'
+  #       namespace: 'app'
+  #       chart: 'app'
+  #       token: '${{ github.token }}'
+  #       values: |
+  #         name: foobar
+  #     env:
+  #       KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
+  # https://github.com/marketplace/actions/helm-deploy
+...
