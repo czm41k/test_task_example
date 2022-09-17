@@ -19,8 +19,15 @@ on:
         type: string
 
 jobs:
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: GitHub Action for pylint
+        uses: cclauss/GitHub-Action-for-pylint@0.7.0
+
   build:
-    runs-on: ubuntu-latest
+    needs: lint
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
     - name: print tags
