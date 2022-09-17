@@ -4,14 +4,16 @@ import os
 import json
 import requests
 from flask import Flask, request, jsonify # pylint: disable=import-error
-# import logging
+import logging
 
 
 WEATHER_URL = os.getenv('WEATHER_URL',default='https://api.openweathermap.org/data/2.5/weather')
 # London city id http://bulk.openweathermap.org/sample/city.list.json.gz
 WEATHER_CITY_ID = os.getenv('WEATHER_CITY_ID',default='2643743')
 WEATHER_API_TOKEN = os.getenv("WEATHER_TOKEN")
+LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO').upper()
 
+logging.basicConfig(level=LOG_LEVEL)
 app = Flask(__name__)
 
 def create_app():

@@ -9,4 +9,5 @@ data:
   WEATHER_URL: "{{ .Values.configMap.url | default "https://api.openweathermap.org/data/2.5/weather" }}"
   WEATHER_CITY_ID: "{{ .Values.configMap.city }}"
   WEATHER_TOKEN: "{{ .Values.configMap.token }}"
+  LOG_LEVEL: "{{ .Values.configMap.log_level }}"
 ...

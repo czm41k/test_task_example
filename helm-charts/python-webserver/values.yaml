@@ -26,4 +26,5 @@ configMap:
   url: "https://api.openweathermap.org/data/2.5/weather"
   city: "2643743"
   token: "a6311858fb35df63b55216bae4aa952a"
+  log_level: "INFO"
 ...
