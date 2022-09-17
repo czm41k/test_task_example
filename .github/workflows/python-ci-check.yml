@@ -15,9 +15,9 @@ jobs:
       - name: Install pylint
         run: pip3 install pylint==2.15.2
       - name: List dirs
-        run: echo $(ls -la /home/runner/work/naviteq_private/naviteq_private)
+        run: ls app-code/
       - name: Run linter
-        run: pylint ./
+        run: pylint app-code/app.py
       # - name: GitHub Action for pylint
       #   uses: cclauss/GitHub-Action-for-pylint@0.7.0
   scan:
