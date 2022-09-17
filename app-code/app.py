@@ -43,4 +43,3 @@ def check_weather():
 def health_json():
     """Healthcheck endpoint. Answers in JSON"""
     return jsonify("HEALTHY")
-
