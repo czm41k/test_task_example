@@ -3,7 +3,7 @@
 import os
 import json
 import requests
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify # pylint: disable=import-error
 # import logging
 
 
