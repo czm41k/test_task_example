@@ -2,9 +2,9 @@
 
 import os
 import json
+import logging
 import requests
 from flask import Flask, request, jsonify # pylint: disable=import-error
-import logging
 
 
 WEATHER_URL = os.getenv('WEATHER_URL',default='https://api.openweathermap.org/data/2.5/weather')
