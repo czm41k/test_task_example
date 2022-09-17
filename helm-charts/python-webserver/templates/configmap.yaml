@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "python-webserver.fullname" . }}-configmap
+  labels:
+    {{- include "python-webserver.labels" . | nindent 4 }}
+data:
+  WEATHER_URL: "{{ .Values.configMap.url | default "https://api.openweathermap.org/data/2.5/weather" }}"
+  WEATHER_CITY_ID: "{{ .Values.configMap.city }}"
+  WEATHER_TOKEN: "{{ .Values.configMap.token }}"
+...

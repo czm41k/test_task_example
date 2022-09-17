@@ -1,0 +1,8 @@
+---
+apiVersion: v2
+name: python-webserver
+description: A Helm chart deploying simple Flask webserver to EKS
+type: application
+version: 0.1.0
+appVersion: "0.0.1"
+...
