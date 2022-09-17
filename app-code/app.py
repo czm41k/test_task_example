@@ -1,5 +1,7 @@
-import os, json
-# import json
+"""Flask app to be run by Flask or waitress-serve"""
+
+import os
+import json
 import requests
 from flask import Flask, request, jsonify
 # import logging
