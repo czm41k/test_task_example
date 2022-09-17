@@ -36,7 +36,7 @@ jobs:
         then
           echo "TAG=${{ inputs.tags }}" >> $GITHUB_ENV
         else
-          echo "TAG=${GITHUB_REF}" >> $GITHUB_ENV
+          echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
         fi
     - name: Build the Docker image
       run: docker build app-code/ --file app-code/Dockerfile --tag czm41k/weather_checker:${{ env.TAG }}
