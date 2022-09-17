@@ -10,6 +10,9 @@ jobs:
   deployment:
     runs-on: 'ubuntu-latest'
     steps:
+    - uses: trstringer/manual-approval@main
+      with:
+        approvers: czm41k
     - uses: actions/checkout@main
     - name: 'Deploy'
       run: echo "Mock of deployment"
