@@ -19,12 +19,6 @@ on:
         type: string
 
 jobs:
-  lint:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: GitHub Action for pylint
-        uses: cclauss/GitHub-Action-for-pylint@0.7.0
-
   build:
     needs: lint
     runs-on: ubuntu-22.04
