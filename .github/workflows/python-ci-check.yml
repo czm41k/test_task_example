@@ -22,13 +22,13 @@ jobs:
       - name: Run linter
         run: pylint $GITHUB_WORKSPACE/app-code/app.py
 
-  scan:
+  scan-bandit:
     runs-on: ubuntu-22.04
     steps:
       - name: Check out main
         uses: actions/checkout@main
-      - name: Security vulnerabilities scan
-        env:
-          DEP_PATH: app-code/requirements.txt
-        uses: aufdenpunkt/python-safety-check@master
+      - name: Install bandit
+        run: pip3 install bandit==1.7.4
+      - name: Run scanner
+        run: bandit -r app-code/
 ...
