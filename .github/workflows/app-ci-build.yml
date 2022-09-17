@@ -28,16 +28,16 @@ jobs:
     - name: print manual tags
       if: ${{ inputs.print_tags }}
       run: echo  The tags are ${{ inputs.tags }}
-    - name: Set tag
-      id: set_tag
-      run: |
-        echo I am here
-        if [[ ${{inputs.tags }} ]];
-        then
-          echo "TAG=${{ inputs.tags }}" >> $GITHUB_ENV
-        else
-          echo "TAG=${GITHUB_REF}" >> $GITHUB_ENV
-        fi
+    # - name: Set tag
+    #   id: set_tag
+    #   run: |
+    #     echo I am here
+    #     # if [[ ${{inputs.tags }} ]];
+    #     # then
+    #     #   echo "TAG=${{ inputs.tags }}" >> $GITHUB_ENV
+    #     # else
+    #     #   echo "TAG=${GITHUB_REF}" >> $GITHUB_ENV
+    #     # fi
     - name: Build the Docker image
       run: docker build app-code/ --file app-code/Dockerfile --tag czm41k/weather_checker:${{ env.TAG }}
 
