@@ -1,5 +1,5 @@
-import os
-import json
+import os, json
+# import json
 import requests
 from flask import Flask, request, jsonify
 # import logging
@@ -16,7 +16,6 @@ def create_app():
     """Factory to use for waitress
     As Flask doesn't recommend to use embedded http-server in production workflows"""
     return app
-
 
 @app.get("/")
 @app.get("/ping")
