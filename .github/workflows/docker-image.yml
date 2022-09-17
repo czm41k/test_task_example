@@ -2,7 +2,7 @@ name: Build image
 
 on:
   push:
-    tags: [ "v[0-9].[0-9]+.[0-9]" ]
+    # tags: [ "v[0-9].[0-9]+.[0-9]" ]
     paths:
       - 'app-code/**'
   pull_request:
@@ -27,6 +27,6 @@ jobs:
       if: ${{ inputs.print_tags }}
       run: echo  The tags are ${{ inputs.tags }} 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag czm41k/weather_checker:${{ inputs.tags }} 
+      run: docker build app-code/ --file app-code/Dockerfile --tag czm41k/weather_checker:${{ inputs.tags }} 
       
 ## TODO - upload image job
