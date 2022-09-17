@@ -1,9 +1,10 @@
+---
 name: Lint and scan python code
 
 on:
   push:
     branches: [ "main" ]
-    paths: [ "app-code/**" ]
+    paths: [ "app-code/**", ".github/workflows/python-ci-check.yml" ]
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
@@ -29,3 +30,4 @@ jobs:
         env:
           DEP_PATH: app-code/requirements.txt
         uses: aufdenpunkt/python-safety-check@master
+...

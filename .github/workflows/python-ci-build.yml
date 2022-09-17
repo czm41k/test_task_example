@@ -1,3 +1,5 @@
+
+---
 name: Build image
 
 on:
@@ -31,3 +33,4 @@ jobs:
       run: docker build app-code/ --file app-code/Dockerfile --tag czm41k/weather_checker:${{ inputs.tags }} 
       
 ## TODO - upload image job
+...
