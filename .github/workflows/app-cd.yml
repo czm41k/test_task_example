@@ -12,6 +12,7 @@ jobs:
     steps:
     - uses: trstringer/manual-approval@main
       with:
+        secret: ${{ github.TOKEN }}
         approvers: czm41k
     - uses: actions/checkout@main
     - name: 'Deploy'
