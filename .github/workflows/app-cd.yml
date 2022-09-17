@@ -12,6 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@main
     - name: 'Deploy'
+      run: "Mock of deployment"
   #     uses: 'deliverybot/helm@main'
   #     with:
   #       release: 'python-webserver'
