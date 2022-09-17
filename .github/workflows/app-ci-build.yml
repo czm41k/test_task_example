@@ -29,7 +29,6 @@ jobs:
       if: ${{ inputs.print_tags }}
       run: echo  The tags are ${{ inputs.tags }}
     - name: Set tag var
-      id: set-tag
       run: |
         if [[ ${{inputs.tags }} ]];
         then
@@ -37,6 +36,7 @@ jobs:
         else
           echo "::set-output name=TAG::${GITHUB_REF}"
         fi
+      id: set-tag
     - name: Build the Docker image
       run: docker build app-code/ --file app-code/Dockerfile --tag czm41k/weather_checker:${{ steps.set-tag.outputs.TAG }}
 
