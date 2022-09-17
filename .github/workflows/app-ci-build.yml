@@ -25,11 +25,15 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
-    - name: print tags
+    - name: print manual tags
       if: ${{ inputs.print_tags }}
       run: echo  The tags are ${{ inputs.tags }}
+    - name: Set tag var
+      id: set-tag
+      run: |
+        [[ ${{inputs.tags }} ]] && echo "::set-output name=TAG::${{ inputs.tags }}" || echo "::set-output name=TAG::${GITHUB_REF}"
     - name: Build the Docker image
-      run: docker build app-code/ --file app-code/Dockerfile --tag czm41k/weather_checker:${{ inputs.tags }}
+      run: docker build app-code/ --file app-code/Dockerfile --tag czm41k/weather_checker:${{ steps.set-tag.outputs.TAG }}
 
 ## TODO - upload image job
 ...
