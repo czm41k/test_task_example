@@ -30,7 +30,7 @@ jobs:
       run: echo  The tags are ${{ inputs.tags }}
     - name: Set tag
       run: |
-        if [[ ${{inputs.tags }} ]];
+        if [[ ${{inputs.tags }} ]]
         then
           echo "TAG=${{ inputs.tags }}" >> $GITHUB_ENV
         else
