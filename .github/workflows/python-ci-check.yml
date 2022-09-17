@@ -1,4 +1,4 @@
-name: Lint and Scan
+name: Lint and scan python code
 
 on:
   push:
