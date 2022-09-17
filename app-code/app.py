@@ -1,4 +1,4 @@
-"""Flask app to be run by Flask or waitress-serve"""
+"""Flask web-server implementing several endpoints"""
 
 import os
 import json

@@ -1,18 +1,63 @@
-##  Description
+# Table of Contents
 
-1. Flask HTTP-webserver that serves only 3 endpoints
-1. `waitress` is used over the Flask  as per [advices in doc](https://flask.palletsprojects.com/en/2.2.x/deploying/)
-1. Implements one method per response type (*html* and *json*) and additional one to wrap the flask app for `waitress`
-1. Written within Python 3.9.13
+* [app](#app)
+  * [create\_app](#app.create_app)
+  * [html\_response](#app.html_response)
+  * [check\_weather](#app.check_weather)
+  * [health\_json](#app.health_json)
+* [local run](#local-debug)
 
+<a id="app"></a>
 
-### Available methods
+# app
 
-1. `/ping` - returns "PONG" in *html*
-1. `/health` - returns "HEALTHY" in *json*
-1. `/` - returns parsed in HTML info on weather in London
-    -  3-rd party API used to grab this info
-### Local run
+Flask web-server implementing several endpoints
+
+<a id="app.create_app"></a>
+
+#### create\_app
+
+```python
+def create_app()
+```
+
+Factory to use for waitress
+As Flask doesn't recommend to use embedded http-server in production workflows
+
+<a id="app.html_response"></a>
+
+#### html\_response
+
+```python
+@app.get("/")
+@app.get("/ping")
+def html_response()
+```
+
+Returns either PONG or weather data in html format
+
+<a id="app.check_weather"></a>
+
+#### check\_weather
+
+```python
+def check_weather()
+```
+
+Calls external API to get weather data
+
+<a id="app.health_json"></a>
+
+#### health\_json
+
+```python
+@app.get("/health")
+def health_json()
+```
+
+Healthcheck endpoint. Answers in JSON
+
+## Local Debug
 
 > By default waitress binds your app to 127.0.0.1 with port 8080
 
