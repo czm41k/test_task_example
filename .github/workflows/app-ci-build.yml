@@ -29,8 +29,10 @@ jobs:
       if: ${{ inputs.print_tags }}
       run: echo  The tags are ${{ inputs.tags }}
     - name: Set tag
+      env:
+        MANUAL_TAG: ${{inputs.tags }}
       run: |
-        if [[ ${{inputs.tags }} ]]
+        if [[ $MANUAL_TAG ]]
         then
           echo "TAG=${{ inputs.tags }}" >> $GITHUB_ENV
         else
