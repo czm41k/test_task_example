@@ -13,12 +13,14 @@ jobs:
   lint:
     runs-on: ubuntu-22.04
     steps:
+      # - name: Check out main
+      #   uses: actions/checkout@main
       - name: Install pylint
         run: pip3 install pylint==2.15.2
       - name: List dirs
-        run: ls app-code/
+        run: ls /home/runner/work/naviteq_private/app-code/
       - name: Run linter
-        run: pylint app-code/app.py
+        run: pylint /home/runner/work/naviteq_private/app-code/app.py
       # - name: GitHub Action for pylint
       #   uses: cclauss/GitHub-Action-for-pylint@0.7.0
   scan:
