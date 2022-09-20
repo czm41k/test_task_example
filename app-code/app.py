@@ -16,10 +16,12 @@ LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO').upper()
 logging.basicConfig(level=LOG_LEVEL)
 app = Flask(__name__)
 
+
 def create_app():
     """Factory to use for waitress
     As Flask doesn't recommend to use embedded http-server in production workflows"""
     return app
+
 
 @app.get("/")
 @app.get("/ping")
