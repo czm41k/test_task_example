@@ -18,6 +18,6 @@ data "aws_partition" "current" {}
 
 locals {
   cluster_name = "${var.owner}-eks-${var.env}"
-  identifiers_list  = join('","', concat([data.aws_caller_identity.current.arn], var.user_arns_access_list))
+  identifiers_list  = join("\", \"", concat([data.aws_caller_identity.current.arn], var.user_arns_access_list))
   identifiers = "[\"${local.identifiers_list}\"]"
 }
