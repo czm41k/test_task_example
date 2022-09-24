@@ -20,27 +20,10 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
     - name: Generate kubeconfig with aws-cli
       run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name czm41k-eks-dev
-    # - name: cat kubeconfig
-    #   id: kubeconfig
-    #   run: |
-    #     KUBECONFIG=$(cat /home/runner/.kube/config)
-    #     echo -e "kubeconfig is \n$KUBECONFIG"
-    #     echo "::set-output name=kubeconfig::$(echo -e $KUBECONFIG)"
-    # outputs:
-    #   kubeconfig: ${{ steps.kubeconfig.outputs.kubeconfig }}
-
-  # helm-deployment:
-    # needs: [kubeconfig]
-    # runs-on: 'ubuntu-latest'
-    # steps:
-    # - name: Wait for manual approval
-    #   uses: trstringer/manual-approval@main
-    #   with:
-    #     secret: ${{ github.TOKEN }}
-    #     approvers: czm41k
-    - uses: actions/checkout@v1
-    - name: 'Show kubeconfig'
-      run: cat /home/runner/.kube/config
+    - name: Checkout repo
+      uses: actions/checkout@v1
+    - name: Check kubeconfig works
+      run: kubectl get ns
   #     uses: 'deliverybot/helm@main'
   #     with:
   #       release: 'python-webserver'
