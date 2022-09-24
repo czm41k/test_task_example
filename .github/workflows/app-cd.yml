@@ -5,9 +5,12 @@ on:
     workflows: ["Build and upload artifact"]
     types: ["completed"]
   workflow_dispatch:
+
 env:
+  REPO: "617686195573.dkr.ecr.us-west-1.amazonaws.com/czm41k-python-webserver-dev"
   AWS_REGION: "us-west-1"
   BUCKET_NAME: "czm41k-terraform-state"
+
 jobs:
   deploy:
     runs-on: 'ubuntu-latest'
@@ -39,7 +42,8 @@ jobs:
       with:
         secret: ${{ github.TOKEN }}
         approvers: czm41k
+    
     - name: install app with helm
       working-directory: helm-charts/python-webserver/
-      run: helm upgrade python-webserver . --install --wait --atomic --create-namespace --namespace=app --timeout=2m --values=./values.yaml
+      run: helm upgrade python-webserver . --install --wait --atomic --create-namespace --namespace=app --timeout=2m --values=./values.yaml --set image.repository=${{ env.REPO }} --set image.tag=${GITHUB_REF_NAME}
 ...

@@ -22,7 +22,6 @@ on:
 
 env:
   REPO: "617686195573.dkr.ecr.us-west-1.amazonaws.com/czm41k-python-webserver-dev"
-  IMAGE_NAME: weather-checker
   AWS_REGION: us-west-1
 
 jobs:
