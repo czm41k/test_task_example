@@ -9,7 +9,7 @@ env:
   AWS_REGION: "us-west-1"
   BUCKET_NAME: "czm41k-terraform-state"
 jobs:
-  get-kubeconfig:
+  kubeconfig:
     runs-on: 'ubuntu-latest'
     steps:
     - name: Configure aws-cli
@@ -26,10 +26,10 @@ jobs:
         cat /home/runner/.kube/config
         echo "::set-output name=kubeconfig::$(cat /home/runner/.kube/config)"
     outputs:
-      KUBECONFIG: ${{ steps.kubeconfig.output }}
+      kubeconfig: ${{ steps.kubeconfig.output }}
 
   helm-deployment:
-    needs: ['get-kubeconfig']
+    needs: [kubeconfig]
     runs-on: 'ubuntu-latest'
     steps:
     # - name: Wait for manual approval
@@ -39,7 +39,9 @@ jobs:
     #     approvers: czm41k
     - uses: actions/checkout@v1
     - name: 'Show kubeconfig'
-      run: echo "Passed kubeconfig is" ${{needs.get-kubeconfig.outputs.KUBECONFIG}}
+      run: |
+        echo "Passed kubeconfig is" ${{needs.kubeconfig.outputs.kubeconfig}}
+        echo ${{needs.kubeconfig.outputs.kubeconfig}}
   #     uses: 'deliverybot/helm@main'
   #     with:
   #       release: 'python-webserver'
