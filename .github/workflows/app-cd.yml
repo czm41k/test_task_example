@@ -24,12 +24,16 @@ jobs:
       uses: actions/checkout@v1
     - name: Check kubeconfig works
       run: kubectl get ns
+    # - name: Deploy with helm
+    #   uses: 'deliverybot/helm@v1'
+    #   with:
+    #     release: 'python-webserver'
+    #     namespace: 'app'
+    #     chart: 'helm-charts/python-webserver'
+    #     token: '${{ github.token }}'
+    #     dry-run: true
     - name: Deploy with helm
-      uses: 'deliverybot/helm@v1'
+      uses: WyriHaximus/github-action-helm3@v2
       with:
-        release: 'python-webserver'
-        namespace: 'app'
-        chart: 'helm-charts/python-webserver'
-        token: '${{ github.token }}'
-        dry-run: true
+        exec: helm upgrade python-webserver helm-charts/python-webserver/ --install --wait --atomic --namespace=app --values=helm-charts/python-webserver/values.yaml
 ...
