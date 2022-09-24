@@ -27,7 +27,7 @@ jobs:
         echo kubeconfig is $KUBECONFIG
         echo "::set-output name=kubeconfig::$KUBECONFIG"
     outputs:
-      kubeconfig: ${{ steps.kubeconfig.output }}
+      kubeconfig: ${{ steps.kubeconfig.outputs.kubeconfig }}
 
   helm-deployment:
     needs: [kubeconfig]
