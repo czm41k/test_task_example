@@ -37,7 +37,7 @@ resource "aws_ecr_lifecycle_policy" "this" {
 resource "aws_ecr_repository_policy" "this" {
   repository = aws_ecr_repository.this.name
   policy     = <<EOF
-    {
+  {
     "Version": "2012-10-17",
     "Statement": [
         {
@@ -61,6 +61,6 @@ resource "aws_ecr_repository_policy" "this" {
             ]
         }
     ]
-    }
+  }
 EOF
 }
