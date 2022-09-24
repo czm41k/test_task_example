@@ -2,7 +2,7 @@
 name: Deploy app with helm
 on:
   workflow_run:
-    workflows: ["Build image"]
+    workflows: ["Build and upload artifact"]
     types: ["completed"]
   workflow_dispatch:
 env:
@@ -11,6 +11,7 @@ env:
 jobs:
   deploy:
     runs-on: 'ubuntu-latest'
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Configure aws-cli
       uses: aws-actions/configure-aws-credentials@v1

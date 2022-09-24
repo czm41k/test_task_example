@@ -1,6 +1,6 @@
 
 ---
-name: Build image
+name: Build and upload artifact
 
 on:
   push:
