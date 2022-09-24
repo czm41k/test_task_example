@@ -43,7 +43,7 @@ jobs:
       run: |
         if [[ $MANUAL_TAG ]]
         then
-          echo "TAG=${{ inputs.tags }}" >> $GITHUB_ENV
+          echo "TAG=${{ inputs.tag }}" >> $GITHUB_ENV
         else
           echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
         fi
