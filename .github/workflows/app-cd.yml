@@ -22,9 +22,10 @@ jobs:
     - name: Generate kubeconfig with aws-cli
       run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name czm41k-eks-dev
     - name: export kubeconfig
-      run: echo "KUBECONFIG=$(cat ~/.kube/config)" >> $ $GITHUB_ENV
+      run: echo "KUBECONFIG=$(cat /home/runner/.kube/config)" >> $ $GITHUB_ENV
 
   helm-deployment:
+    needs: ['get-kubeconfig']
     runs-on: 'ubuntu-latest'
     steps:
     # - name: Wait for manual approval
