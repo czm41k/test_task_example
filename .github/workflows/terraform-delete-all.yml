@@ -1,5 +1,5 @@
 ---
-name: Deploy app with helm
+name: Destroy all infra
 on:
   workflow_dispatch:
 
