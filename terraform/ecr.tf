@@ -45,10 +45,6 @@ resource "aws_ecr_repository_policy" "this" {
             "Effect": "Allow",
             "Principal": {
                 "AWS": ${local.identifiers}
-                # "AWS": [
-                #     "arn:aws:iam::account-id:user/push-pull-user-1",
-                #     "arn:aws:iam::account-id:user/push-pull-user-2"$
-                # ]
             },
             "Action": [
                 "ecr:BatchGetImage",
