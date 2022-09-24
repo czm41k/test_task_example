@@ -23,7 +23,6 @@ module "eks" {
         aws_security_group.worker_node_group.id
       ]
     }
-    blue = {}
   }
   tags = {
     environemt = var.env
