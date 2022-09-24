@@ -1,7 +1,7 @@
 module "ecr" {
   source = "terraform-aws-modules/ecr/aws"
 
-  repository_name = "czm41k-ecr-${var.env}"
+  repository_name                   = "czm41k-ecr-${var.env}"
   repository_read_write_access_arns = ["arn:aws:iam::617686195573:user/evgenii-tselikov"] # TODO change to var
   repository_lifecycle_policy = jsonencode({
     rules = [
@@ -22,7 +22,7 @@ module "ecr" {
   })
 
   tags = {
-    owned_by   = "czm41k"
+    owned_by    = "czm41k"
     environment = "${var.env}"
   }
 }
