@@ -19,7 +19,7 @@ env:
 jobs:
   deploy:
     runs-on: 'ubuntu-latest'
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }} or ${{ inputs.tag }}
     steps:
     - name: Configure aws-cli
       uses: aws-actions/configure-aws-credentials@v1
@@ -39,7 +39,7 @@ jobs:
         version: '3.9.4'
     - name: Set tag
       env:
-        MANUAL_TAG: ${{inputs.tag }}
+        MANUAL_TAG: ${{ inputs.tag }}
       run: |
         if [[ $MANUAL_TAG ]]
         then
@@ -49,7 +49,7 @@ jobs:
         fi
     - name: install app with helm --dry-run
       working-directory: helm-charts/python-webserver/
-      run: helm upgrade python-webserver . --install --wait --atomic --dry-run --create-namespace --namespace=app --timeout=2m --values=./values.yaml --set image.repository=${{ env.REPO }} --set image.tag=${GITHUB_REF_NAME}
+      run: helm upgrade python-webserver . --install --wait --atomic --dry-run --create-namespace --namespace=app --timeout=2m --values=./values.yaml --set image.repository=${{ env.REPO }} --set image.tag=${TAG}
     - name: Approve before deploy
       uses: trstringer/manual-approval@main
       with:
@@ -58,5 +58,5 @@ jobs:
 
     - name: install app with helm
       working-directory: helm-charts/python-webserver/
-      run: helm upgrade python-webserver . --install --wait --atomic --create-namespace --namespace=app --timeout=2m --values=./values.yaml --set image.repository=${{ env.REPO }} --set image.tag=${GITHUB_REF_NAME}
+      run: helm upgrade python-webserver . --install --wait --atomic --create-namespace --namespace=app --timeout=2m --values=./values.yaml --set image.repository=${{ env.REPO }} --set image.tag=${TAG}
 ...
