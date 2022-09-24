@@ -15,5 +15,5 @@ provider "aws" {
 data "aws_availability_zones" "available" {}
 
 locals {
-  cluster_name = "czm41k-eks-${var.env}"
+  cluster_name = "${var.owner}-eks-${var.env}"
 }

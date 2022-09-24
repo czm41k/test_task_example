@@ -15,3 +15,7 @@ variable "ecr_retention" {
   description = "How many version of images to keep"
   default     = 5
 }
+variable "owner" {
+  type    = string
+  default = "czm41k"
+}
