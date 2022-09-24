@@ -15,6 +15,11 @@ variable "owner" {
   type    = string
   default = "czm41k"
 }
+variable "app_name" {
+  type        = string
+  description = "Name of application to be uploaded to ECR"
+  default     = "python-webserver"
+}
 variable "access_list" {
   description = "List of ARNs to grant access to infra"
   type        = list(any)

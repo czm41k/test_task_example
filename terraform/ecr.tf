@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "this" {
-  name                 = "${var.owner}-python-webserver-${var.env}"
+  name                 = "${var.owner}-${var.app_name}-${var.env}"
   image_tag_mutability = "IMMUTABLE"
   encryption_configuration {
     encryption_type = "AES256"
