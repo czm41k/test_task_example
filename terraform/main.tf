@@ -17,4 +17,3 @@ data "aws_availability_zones" "available" {}
 locals {
   cluster_name = "czm41k-eks-${var.env}"
 }
-
