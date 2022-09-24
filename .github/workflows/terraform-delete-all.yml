@@ -35,7 +35,7 @@ jobs:
         approvers: czm41k
     - name: Terraform destroy
       run: terraform destroy --auto-approve=true
-  
+
   destroy_state:
     needs: [terraform-destroy]
     name: "Delete terraform remote backend state"
