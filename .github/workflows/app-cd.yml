@@ -36,5 +36,5 @@ jobs:
       uses: WyriHaximus/github-action-helm3@v2
       with:
         exec: helm upgrade python-webserver helm-charts/python-webserver/ --install --wait --atomic --namespace=app --values=helm-charts/python-webserver/values.yaml
-        kubeconfig: $(echo -e $(cat /home/runner/.kube/config))
+        kubeconfig: $(cat /home/runner/.kube/config)
 ...
