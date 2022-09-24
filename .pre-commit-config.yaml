@@ -19,5 +19,5 @@ repos:
   hooks:
   - id: terraform_fmt
     name: terraform format
-  #TODO Enable - id: terraform_docs
+  - id: terraform_docs
 ...
