@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "this" {
-  name                 = "${var.owner}-ecr-${var.env}"
+  name                 = "${var.owner}-python-webserver-${var.env}"
   image_tag_mutability = "IMMUTABLE"
   encryption_configuration {
     encryption_type = "AES256"
@@ -41,7 +41,7 @@ resource "aws_ecr_repository_policy" "this" {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "AllowPushPull",
+            "Sid": "AllowAll",
             "Effect": "Allow",
             "Principal": {
                 "AWS": ${local.identifiers}
