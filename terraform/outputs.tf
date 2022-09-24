@@ -20,5 +20,5 @@ output "cluster_name" {
 }
 output "repository_url" {
   description = "The URL of the repository"
-  value       = try(aws_ecr_repository.this[0].repository_url, aws_ecrpublic_repository.this[0].repository_uri, null)
+  value       = try(aws_ecr_repository.this.repository_url, null)
 }
