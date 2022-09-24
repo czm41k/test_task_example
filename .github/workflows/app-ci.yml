@@ -45,6 +45,7 @@ jobs:
         run: pip3 install bandit==1.7.4
       - name: Run scanner
         run: bandit -r app-code/
+
   build:
     needs: [lint,scan-bandit]
     runs-on: ubuntu-22.04
