@@ -53,6 +53,6 @@ jobs:
         secret: ${{ github.TOKEN }}
         approvers: czm41k
     - name: Terraform Apply
-      if: ${{ ${{ failure() || canceled() }} && env.CODE == '2' }}
+      if: ${{ ( failure() || canceled() ) && env.CODE == '2' }}
       run: terraform apply -auto-approve -input=false
 ...
