@@ -46,7 +46,7 @@ jobs:
         CODE=$?
         echo "exit-code is $CODE"
         echo "CODE=$CODE" >> $GITHUB_ENV
-    - name: Approve before Apply
+    - name: Approve before apply in case of changes
       if: ${{ failure() && env.CODE == '2' }}
       uses: trstringer/manual-approval@main
       with:
