@@ -21,6 +21,10 @@ on:
         required: true
         type: string
 
+env:
+  REPO: "617686195573.dkr.ecr.us-west-1.amazonaws.com/czm41k-ecr-dev"
+  IMAGE_NAME: weather-checker
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -40,7 +44,13 @@ jobs:
           echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
         fi
     - name: Build the Docker image
-      run: docker build app-code/ --file app-code/Dockerfile --tag czm41k/weather_checker:${{ env.TAG }}
-
-## TODO - upload image job
+      run: docker build app-code/ --file app-code/Dockerfile --tag ${{env.REPO}}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+    - name: Configure aws-cli
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: ${{ env.AWS_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+    - name: Upload to Registry
+      run: docker push ${{ env.REPO }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
 ...
