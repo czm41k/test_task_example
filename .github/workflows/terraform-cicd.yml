@@ -45,7 +45,7 @@ jobs:
         terraform plan -input=false -detailed-exitcode
         echo "CODE=$?" >> $GITHUB_ENV
     - name: Approve before Apply
-      if: failure() && ${{ env.CODE }}=='2' # Run only in case of changes
+      if: ${{ failure() && (${{ env.CODE }}=='2') }} # Run only in case of changes
       uses: trstringer/manual-approval@main
       with:
         secret: ${{ github.TOKEN }}
