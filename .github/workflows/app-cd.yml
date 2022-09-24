@@ -36,7 +36,7 @@ jobs:
       run: helm ls
     - name: install app with helm --dry-run
       working-directory: helm-charts/python-webserver/
-      run: helm upgrade python-webserver . --install --wait --atomic --namespace=app --values=./values.yaml --dry-run
+      run: helm upgrade python-webserver . --install --wait --atomic --dry-run --create-namespace --namespace=app --timeout=2m --values=./values.yaml --set image.repository=${{ env.REPO }} --set image.tag=${GITHUB_REF_NAME}
     - name: Approve before deploy
       uses: trstringer/manual-approval@main
       with:
