@@ -40,5 +40,5 @@ jobs:
         approvers: czm41k
     - name: install app with helm
       working-directory: helm-charts/python-webserver/
-      run: helm upgrade python-webserver . --install --wait --atomic --create-namespace --namespace=app --values=./values.yaml
+      run: helm upgrade python-webserver . --install --wait --atomic --create-namespace --namespace=app --timeout=2m --values=./values.yaml
 ...
