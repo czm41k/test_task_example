@@ -48,6 +48,7 @@ jobs:
 
   build:
     needs: [lint,scan-bandit]
+    name: "Build and upload to registry"
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
