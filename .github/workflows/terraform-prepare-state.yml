@@ -10,18 +10,19 @@ jobs:
     name: 'Run terraform'
     runs-on: ubuntu-latest
     env:
-      aws-region: "us-west-1"
+      AWS_REGION: "us-west-1"
       BUCKET_NAME: "czm41k-terraform-state"
     steps:
     - name: Configure aws-cli
       uses: aws-actions/configure-aws-credentials@v1
       with:
+        aws-region: ${{ env.AWS_REGION }}
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
     - name: Create S3 bucket
-      run: echo "bucket=$(aws s3api create-bucket -bucket ${BUCKET_NAME} -create-bucket-configuration LocationConstraint=${{ env.aws-region }} | jq .Location)" >> $GITHUB_ENV
+      run: echo "bucket=$(aws s3api create-bucket -bucket ${{ env.BUCKET_NAME }} -create-bucket-configuration LocationConstraint=${{ env.AWS_REGION }} | jq .Location)" >> $GITHUB_ENV
     - name: Encrypt bucket
       run: |
-        aws s3api put-bucket-encryption -bucket ${BUCKET_NAME} -server-side-encryption-configuration "{\"Rules\": [{\"ApplyServerSideEncryptionByDefault\":{\"SSEAlgorithm\": \"AES256\"}}]}"
+        aws s3api put-bucket-encryption -bucket ${{ env.BUCKET_NAME }} -server-side-encryption-configuration "{\"Rules\": [{\"ApplyServerSideEncryptionByDefault\":{\"SSEAlgorithm\": \"AES256\"}}]}"
     - name: Create dynamodb table
-      run: aws dynamodb create-table -table-name "${BUCKET_NAME}-lock" -attribute-definitions AttributeName=LockID,AttributeType=S -key-schema AttributeName=LockID,KeyType=HASH -provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
+      run: aws dynamodb create-table -table-name "${{ env.BUCKET_NAME }}-lock" -attribute-definitions AttributeName=LockID,AttributeType=S -key-schema AttributeName=LockID,KeyType=HASH -provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
