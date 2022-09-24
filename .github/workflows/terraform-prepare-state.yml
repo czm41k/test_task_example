@@ -1,10 +1,13 @@
+---
 name: 'Terraform: Create s3-backend for state'
+
 on:
   push:
     branches: [ "main" ]
     paths:
       - '.github/workflows/terraform-prepare*'
   workflow_dispatch:
+
 jobs:
   aws:
     name: 'Run aws-cli'
@@ -26,3 +29,4 @@ jobs:
         aws s3api put-bucket-encryption --bucket ${{ env.BUCKET_NAME }} --server-side-encryption-configuration "{\"Rules\": [{\"ApplyServerSideEncryptionByDefault\":{\"SSEAlgorithm\": \"AES256\"}}]}"
     - name: Create dynamodb table
       run: aws dynamodb create-table --table-name "${{ env.BUCKET_NAME }}-lock" --attribute-definitions AttributeName=LockID,AttributeType=S --key-schema AttributeName=LockID,KeyType=HASH --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
+...
