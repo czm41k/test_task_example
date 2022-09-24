@@ -10,7 +10,7 @@ jobs:
     name: 'Run terraform'
     runs-on: ubuntu-latest
     env:
-      REGION: "us-west-1"
+      aws-region: "us-west-1"
       BUCKET_NAME: "czm41k-terraform-state"
     steps:
     - name: Configure aws-cli
@@ -18,9 +18,8 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-        aws-region: "${REGION}"
     - name: Create S3 bucket
-      run: echo "bucket=$(aws s3api create-bucket -bucket ${BUCKET_NAME} -create-bucket-configuration LocationConstraint=${REGION} | jq .Location)" >> $GUTHUB_ENV
+      run: echo "bucket=$(aws s3api create-bucket -bucket ${BUCKET_NAME} -create-bucket-configuration LocationConstraint=${{ env.aws-region }} | jq .Location)" >> $GITHUB_ENV
     - name: Encrypt bucket
       run: |
         aws s3api put-bucket-encryption -bucket ${BUCKET_NAME} -server-side-encryption-configuration "{\"Rules\": [{\"ApplyServerSideEncryptionByDefault\":{\"SSEAlgorithm\": \"AES256\"}}]}"
