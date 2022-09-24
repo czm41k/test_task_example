@@ -1,7 +1,6 @@
 
 ---
 name: Build and upload artifact
-
 on:
   push:
     tags: [ "v[0-9].[0-9]+.[0-9]" ]
@@ -27,7 +26,27 @@ env:
   AWS_REGION: us-west-1
 
 jobs:
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out main
+        uses: actions/checkout@main
+      - name: Install pylint
+        run: pip3 install pylint==2.15.2
+      - name: Run linter
+        run: pylint $GITHUB_WORKSPACE/app-code/app.py
+
+  scan-bandit:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out main
+        uses: actions/checkout@main
+      - name: Install bandit
+        run: pip3 install bandit==1.7.4
+      - name: Run scanner
+        run: bandit -r app-code/
   build:
+    needs: [lint,scan-bandit]
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
@@ -45,13 +64,15 @@ jobs:
           echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
         fi
     - name: Build the Docker image
-      run: docker build app-code/ --file app-code/Dockerfile --tag ${{env.REPO}}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+      run: docker build app-code/ --file app-code/Dockerfile --tag ${{ env.REPO }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
     - name: Configure aws-cli
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-region: ${{ env.AWS_REGION }}
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+    - name: Docker login
+      run: aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin $( echo $REPO | cut -d / -f 1)
     - name: Upload to Registry
       run: docker push ${{ env.REPO }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
 ...
