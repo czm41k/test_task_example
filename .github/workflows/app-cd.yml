@@ -32,9 +32,15 @@ jobs:
     #     chart: 'helm-charts/python-webserver'
     #     token: '${{ github.token }}'
     #     dry-run: true
-    - name: Deploy with helm
-      uses: WyriHaximus/github-action-helm3@v2
+    # - name: Deploy with helm
+    #   uses: WyriHaximus/github-action-helm3@v2
+    #   with:
+    #     exec: helm upgrade python-webserver helm-charts/python-webserver/ --install --wait --atomic --namespace=app --values=helm-charts/python-webserver/values.yaml
+    #     kubeconfig: "$(cat /home/runner/.kube/config)"
+    - name: install helm3
+      uses: azure/setup-helm@v3
       with:
-        exec: helm upgrade python-webserver helm-charts/python-webserver/ --install --wait --atomic --namespace=app --values=helm-charts/python-webserver/values.yaml
-        kubeconfig: "$(cat /home/runner/.kube/config)"
+        version: '3.9.4'
+    - name: check helm
+      run: helm ls
 ...
