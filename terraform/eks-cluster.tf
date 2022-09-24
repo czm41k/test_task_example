@@ -8,7 +8,7 @@ module "eks" {
   subnet_ids      = module.vpc.private_subnets
   eks_managed_node_group_defaults = {
     ami_type                              = "AL2_x86_64"
-    attach_cluster_primary_security_group = true
+    attach_cluster_primary_security_group = false
     # Disabling and using externally provided security groups
     create_security_group = false
   }
@@ -19,9 +19,6 @@ module "eks" {
       min_size       = 0
       max_size       = 1
       desired_size   = 1
-      vpc_security_group_ids = [
-        aws_security_group.worker_node_group.id
-      ]
     }
   }
   tags = {
