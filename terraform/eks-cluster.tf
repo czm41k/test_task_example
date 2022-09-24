@@ -27,6 +27,6 @@ module "eks" {
   }
   tags = {
     environemt = var.env
-    owned_by   = czm41k
+    owned_by   = "czm41k"
   }
 }
