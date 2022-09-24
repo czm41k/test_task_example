@@ -5,6 +5,11 @@ on:
     workflows: ["Check, build and upload artifact"]
     types: ["completed"]
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Image tag'
+        required: true
+        type: string
 
 env:
   REPO: "617686195573.dkr.ecr.us-west-1.amazonaws.com/czm41k-python-webserver-dev"
@@ -32,8 +37,16 @@ jobs:
       uses: azure/setup-helm@v3
       with:
         version: '3.9.4'
-    - name: check helm
-      run: helm ls
+    - name: Set tag
+      env:
+        MANUAL_TAG: ${{inputs.tag }}
+      run: |
+        if [[ $MANUAL_TAG ]]
+        then
+          echo "TAG=${{ inputs.tags }}" >> $GITHUB_ENV
+        else
+          echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+        fi
     - name: install app with helm --dry-run
       working-directory: helm-charts/python-webserver/
       run: helm upgrade python-webserver . --install --wait --atomic --dry-run --create-namespace --namespace=app --timeout=2m --values=./values.yaml --set image.repository=${{ env.REPO }} --set image.tag=${GITHUB_REF_NAME}
