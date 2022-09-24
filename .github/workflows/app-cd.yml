@@ -5,13 +5,12 @@ on:
     workflows: ["Build image"]
     types: ["completed"]
   workflow_dispatch:
-
+env:
+  AWS_REGION: "us-west-1"
+  BUCKET_NAME: "czm41k-terraform-state"
 jobs:
   get-kubeconfig:
     runs-on: 'ubuntu-latest'
-    env:
-      AWS_REGION: "us-west-1"
-      BUCKET_NAME: "czm41k-terraform-state"
     steps:
     - name: Configure aws-cli
       uses: aws-actions/configure-aws-credentials@v1
@@ -21,8 +20,13 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
     - name: Generate kubeconfig with aws-cli
       run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name czm41k-eks-dev
-    - name: export kubeconfig
-      run: echo "KUBECONFIG=$(cat /home/runner/.kube/config)" >> $ $GITHUB_ENV
+    - name: cat kubeconfig
+      id: kubeconfig
+      run: |
+        cat /home/runner/.kube/config
+        echo "::set-output name=kubeconfig::$(cat /home/runner/.kube/config)"
+    outputs:
+      KUBECONFIG: ${{ steps.kubeconfig.output }}
 
   helm-deployment:
     needs: ['get-kubeconfig']
@@ -35,7 +39,7 @@ jobs:
     #     approvers: czm41k
     - uses: actions/checkout@v1
     - name: 'Show kubeconfig'
-      run: echo "Passed kubeconfig is ${{env.KUBECONFIG}}"
+      run: echo "Passed kubeconfig is" ${{needs.get-kubeconfig.outputs.KUBECONFIG}}
   #     uses: 'deliverybot/helm@main'
   #     with:
   #       release: 'python-webserver'
