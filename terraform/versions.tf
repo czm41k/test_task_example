@@ -4,10 +4,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.15.0"
     }
-    ecr = {
-      source  = "hashicorp/aws"
-      version = "1.4.0"
-    }
     random = {
       source  = "hashicorp/random"
       version = "3.1.0"
