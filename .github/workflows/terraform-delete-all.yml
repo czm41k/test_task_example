@@ -1,0 +1,52 @@
+---
+name: Deploy app with helm
+on:
+  workflow_dispatch:
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+  AWS_DEFAULT_REGION: "us-west-1"
+
+jobs:
+  terraform-destroy:
+    name: "Terraform destroy"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform/
+        shell: bash
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init
+    - name: Approve before Destroy
+      uses: trstringer/manual-approval@main
+      with:
+        secret: ${{ github.TOKEN }}
+        approvers: czm41k
+    - name: Terraform destroy
+      run: terraform destroy --auto-approve=true
+  
+  destroy_state:
+    needs: [terraform-destroy]
+    name: "Delete terraform remote backend state"
+    runs-on: ubuntu-latest
+    steps:
+    - name: Configure aws-cli
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: ${{ env.AWS_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+    - name: Delete S3 bucket
+      run: aws s3api delete-bucket --bucket ${{ env.BUCKET_NAME }} --region ${{ env.AWS_REGION }}
+...
