@@ -20,9 +20,9 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
     - name: Create S3 bucket
-      run: aws s3api create-bucket -bucket ${{ env.BUCKET_NAME }} -create-bucket-configuration LocationConstraint=${{ env.AWS_REGION }}
+      run: aws s3api create-bucket --bucket ${{ env.BUCKET_NAME }} --create-bucket-configuration LocationConstraint=${{ env.AWS_REGION }}
     - name: Encrypt bucket
       run: |
-        aws s3api put-bucket-encryption -bucket ${{ env.BUCKET_NAME }} -server-side-encryption-configuration "{\"Rules\": [{\"ApplyServerSideEncryptionByDefault\":{\"SSEAlgorithm\": \"AES256\"}}]}"
+        aws s3api put-bucket-encryption --bucket ${{ env.BUCKET_NAME }} --server-side-encryption-configuration "{\"Rules\": [{\"ApplyServerSideEncryptionByDefault\":{\"SSEAlgorithm\": \"AES256\"}}]}"
     - name: Create dynamodb table
-      run: aws dynamodb create-table -table-name "${{ env.BUCKET_NAME }}-lock" -attribute-definitions AttributeName=LockID,AttributeType=S -key-schema AttributeName=LockID,KeyType=HASH -provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
+      run: aws dynamodb create-table --table-name "${{ env.BUCKET_NAME }}-lock" --attribute-definitions AttributeName=LockID,AttributeType=S --key-schema AttributeName=LockID,KeyType=HASH --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
