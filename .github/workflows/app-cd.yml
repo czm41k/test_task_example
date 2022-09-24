@@ -24,15 +24,15 @@ jobs:
       uses: actions/checkout@v1
     - name: Check kubeconfig works
       run: kubectl get ns
-  #     uses: 'deliverybot/helm@main'
-  #     with:
-  #       release: 'python-webserver'
-  #       namespace: 'app'
-  #       chart: 'app'
-  #       token: '${{ github.token }}'
-  #       values: |
-  #         name: foobar
-  #     env:
-  #       KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
-  # https://github.com/marketplace/actions/helm-deploy
+    - name: Deploy with helm
+      uses: 'deliverybot/helm@main'
+      with:
+        release: 'python-webserver'
+        namespace: 'app'
+        chart: 'app'
+        token: '${{ github.token }}'
+        value-files: >-
+        [
+          "helm-charts/python-webserver/values.yaml"
+        ]
 ...
