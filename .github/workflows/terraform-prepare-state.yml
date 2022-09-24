@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 jobs:
   aws:
-    name: 'Run terraform'
+    name: 'Run aws-cli'
     runs-on: ubuntu-latest
     env:
       AWS_REGION: "us-west-1"
