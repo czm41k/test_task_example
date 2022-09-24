@@ -43,9 +43,6 @@ jobs:
     - name: Terraform plan with changes detection
       run: |
         terraform plan -input=false -detailed-exitcode || $(echo "CODE=$CODE" >> $GITHUB_ENV)
-        CODE=$?
-        echo "exit-code is $CODE"
-        echo "CODE=$CODE" >> $GITHUB_ENV
     - name: Approve before apply in case of changes
       if: ${{ failure() && env.CODE == '2' }} # Run in case of changes only
       uses: trstringer/manual-approval@main
