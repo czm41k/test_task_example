@@ -47,7 +47,7 @@ jobs:
         echo "exit-code is $CODE"
         echo "CODE=$CODE" >> $GITHUB_ENV
     - name: Approve before Apply
-      if: ${{ env.CODE }}=="2"
+      if: ${{ env.CODE }}==2
       uses: trstringer/manual-approval@main
       with:
         secret: ${{ github.TOKEN }}
