@@ -23,8 +23,9 @@ jobs:
     - name: cat kubeconfig
       id: kubeconfig
       run: |
-        cat /home/runner/.kube/config
-        echo "::set-output name=kubeconfig::$(cat /home/runner/.kube/config)"
+        KUBECONFIG=$(cat /home/runner/.kube/config)
+        echo kubeconfig is $KUBECONFIG
+        echo "::set-output name=kubeconfig::$KUBECONFIG"
     outputs:
       kubeconfig: ${{ steps.kubeconfig.output }}
 
