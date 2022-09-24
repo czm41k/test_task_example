@@ -31,8 +31,8 @@ jobs:
       run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name czm41k-eks-dev
     - name: Checkout repo
       uses: actions/checkout@v1
-    - name: Check kubeconfig works
-      run: kubectl get ns
+    # - name: Check kubeconfig works
+    #   run: kubectl get ns
     - name: install helm3
       uses: azure/setup-helm@v3
       with:
