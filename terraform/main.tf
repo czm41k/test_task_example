@@ -21,10 +21,10 @@ locals {
   identifiers_list = join("\", \"", concat([data.aws_caller_identity.current.arn], var.user_arns_access_list))
   identifiers      = "[\"${local.identifiers_list}\"]"
   users_access_dict = [
-    for u in concat([data.aws_caller_identity.current.arn], var.user_arns_access_list) :
+    for arn in concat([data.aws_caller_identity.current.arn], var.user_arns_access_list) :
     {
-      userarn  = u
-      username = split("/".u)[1]
+      userarn  = arn
+      username = split("/", arn)[1]
       groups   = ["system:masters"]
     }
   ]
