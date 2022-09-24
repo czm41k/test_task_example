@@ -3,7 +3,7 @@ variable "region" {
   type        = string
   default     = "us-west-1"
 }
-variable "s3_force_destroy" {
+variable "force_destroy" {
   description = "Whether to force destroy s3 state bucket or not"
   default     = false
 }
