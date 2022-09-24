@@ -25,4 +25,8 @@ module "eks" {
     }
     blue = {}
   }
+  tags = {
+    environemt = var.env
+    owned_by   = czm41k
+  }
 }
