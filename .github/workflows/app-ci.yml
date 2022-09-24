@@ -1,6 +1,6 @@
 
 ---
-name: Build and upload artifact
+name: Check, build and upload artifact
 on:
   push:
     tags: [ "v[0-9].[0-9]+.[0-9]" ]
