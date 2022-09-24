@@ -21,7 +21,7 @@ on:
         type: string
 
 env:
-  REPO: "617686195573.dkr.ecr.us-west-1.amazonaws.com/czm41k-ecr-dev"
+  REPO: "617686195573.dkr.ecr.us-west-1.amazonaws.com/czm41k-python-webserver-dev"
   IMAGE_NAME: weather-checker
   AWS_REGION: us-west-1
 
@@ -65,7 +65,7 @@ jobs:
           echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
         fi
     - name: Build the Docker image
-      run: docker build app-code/ --file app-code/Dockerfile --tag ${{ env.REPO }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+      run: docker build app-code/ --file app-code/Dockerfile --tag ${{ env.REPO }}:${{ env.TAG }}
     - name: Configure aws-cli
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -75,5 +75,5 @@ jobs:
     - name: Docker login
       run: aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.REPO }}
     - name: Upload to Registry
-      run: docker push ${{ env.REPO }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+      run: docker push ${{ env.REPO }}:${{ env.TAG }}
 ...
