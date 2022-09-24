@@ -33,3 +33,34 @@ resource "aws_ecr_lifecycle_policy" "this" {
     ]
   })
 }
+
+resource "aws_ecr_repository_policy" "this" {
+  repository = aws_ecr_repository.this.name
+  policy     = <<EOF
+    {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPushPull",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": ${local.identifiers}
+                # "AWS": [
+                #     "arn:aws:iam::account-id:user/push-pull-user-1",
+                #     "arn:aws:iam::account-id:user/push-pull-user-2"$
+                # ]
+            },
+            "Action": [
+                "ecr:BatchGetImage",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:CompleteLayerUpload",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:InitiateLayerUpload",
+                "ecr:PutImage",
+                "ecr:UploadLayerPart"
+            ]
+        }
+    ]
+    }
+EOF
+}

@@ -15,3 +15,8 @@ variable "owner" {
   type    = string
   default = "czm41k"
 }
+variable "access_list" {
+  description = "List of ARNs to grant access to infra"
+  type        = list(any)
+  default     = []
+}
