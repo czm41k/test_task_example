@@ -43,4 +43,7 @@ jobs:
         version: '3.9.4'
     - name: check helm
       run: helm ls
+    - name: install app with helm
+      working-directory: helm-charts/python-webserver/
+      run: helm upgrade python-webserver . --install --wait --atomic --namespace=app --values=./values.yaml
 ...
