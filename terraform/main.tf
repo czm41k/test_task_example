@@ -18,5 +18,5 @@ data "aws_partition" "current" {}
 
 locals {
   cluster_name = "${var.owner}-eks-${var.env}"
-  identifiers  = "[\"${data.aws_caller_identity.current.arn}\"]"
+  identifiers  = "[${join(","concat([data.aws_caller_identity.current.arn],var.user_arns_access_list))}]"
 }

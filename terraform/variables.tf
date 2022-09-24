@@ -20,7 +20,7 @@ variable "app_name" {
   description = "Name of application to be uploaded to ECR"
   default     = "python-webserver"
 }
-variable "access_list" {
+variable "user_arns_access_list" {
   description = "List of ARNs to grant access to infra"
   type        = list(any)
   default     = []
