@@ -19,5 +19,4 @@ repos:
   hooks:
   - id: terraform_fmt
     name: terraform format
-  - id: terraform_docs
 ...
