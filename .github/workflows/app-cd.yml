@@ -25,7 +25,7 @@ jobs:
     - name: Check kubeconfig works
       run: kubectl get ns
     - name: Deploy with helm
-      uses: 'deliverybot/helm@main'
+      uses: 'deliverybot/helm@v1'
       with:
         release: 'python-webserver'
         namespace: 'app'
