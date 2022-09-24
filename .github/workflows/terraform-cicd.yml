@@ -42,7 +42,7 @@ jobs:
       run: terraform fmt -check
     - name: Terraform plan with changes detection
       run: |
-        terraform plan -input=false -detailed-exitcode
+        terraform plan -input=false -detailed-exitcode || $(echo "CODE=$CODE" >> $GITHUB_ENV)
         CODE=$?
         echo "exit-code is $CODE"
         echo "CODE=$CODE" >> $GITHUB_ENV
