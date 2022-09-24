@@ -31,6 +31,7 @@ jobs:
         namespace: 'app'
         chart: 'app'
         token: '${{ github.token }}'
+        dry-run: true
         value-files: >-
         [
           "helm-charts/python-webserver/values.yaml"
