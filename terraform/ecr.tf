@@ -47,13 +47,7 @@ resource "aws_ecr_repository_policy" "this" {
                 "AWS": ${local.identifiers}
             },
             "Action": [
-                "ecr:BatchGetImage",
-                "ecr:BatchCheckLayerAvailability",
-                "ecr:CompleteLayerUpload",
-                "ecr:GetDownloadUrlForLayer",
-                "ecr:InitiateLayerUpload",
-                "ecr:PutImage",
-                "ecr:UploadLayerPart"
+                "ecr:*"
             ]
         }
     ]
