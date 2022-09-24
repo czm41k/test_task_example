@@ -7,17 +7,34 @@ on:
   workflow_dispatch:
 
 jobs:
-  deployment:
+  get-kubeconfig:
+    runs-on: 'ubuntu-latest'
+    env:
+      AWS_REGION: "us-west-1"
+      BUCKET_NAME: "czm41k-terraform-state"
+    steps:
+    - name: Configure aws-cli
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: ${{ env.AWS_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+    - name: Generate kubeconfig with aws-cli
+      run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name czm41k-eks-dev
+    - name: export kubeconfig
+      run: echo "KUBECONFIG=$(cat ~/.kube/config)" >> $ $GITHUB_ENV
+
+  helm-deployment:
     runs-on: 'ubuntu-latest'
     steps:
-    - name: Wait for manual approval
-      uses: trstringer/manual-approval@main
-      with:
-        secret: ${{ github.TOKEN }}
-        approvers: czm41k
+    # - name: Wait for manual approval
+    #   uses: trstringer/manual-approval@main
+    #   with:
+    #     secret: ${{ github.TOKEN }}
+    #     approvers: czm41k
     - uses: actions/checkout@v1
-    - name: 'Deploy'
-      run: echo "Mock of deployment"
+    - name: 'Show kubeconfig'
+      run: echo "Passed kubeconfig is ${{env.KUBECONFIG}}"
   #     uses: 'deliverybot/helm@main'
   #     with:
   #       release: 'python-webserver'
