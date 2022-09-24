@@ -40,7 +40,7 @@ jobs:
     #     approvers: czm41k
     - uses: actions/checkout@v1
     - name: 'Show kubeconfig'
-      run: echo -e "Passed kubeconfig is $KUBECONFIG"
+      run: cat /home/runner/.kube/config
   #     uses: 'deliverybot/helm@main'
   #     with:
   #       release: 'python-webserver'
