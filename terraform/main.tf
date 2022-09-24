@@ -20,4 +20,12 @@ locals {
   cluster_name     = "${var.owner}-eks-${var.env}"
   identifiers_list = join("\", \"", concat([data.aws_caller_identity.current.arn], var.user_arns_access_list))
   identifiers      = "[\"${local.identifiers_list}\"]"
+  users_access_dict = [
+    for u in concat([data.aws_caller_identity.current.arn], var.user_arns_access_list) :
+    {
+      userarn  = u
+      username = split("/".u)[1]
+      groups   = ["system:masters"]
+    }
+  ]
 }
