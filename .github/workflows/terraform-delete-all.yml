@@ -1,5 +1,5 @@
 ---
-name: Destroy all infra
+name: 'Terraform: Destroy all infra'
 on:
   workflow_dispatch:
 

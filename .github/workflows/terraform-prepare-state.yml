@@ -1,4 +1,4 @@
-name: 'Create s3-backend for state'
+name: 'Terraform: Create s3-backend for state'
 on:
   push:
     branches: [ "main" ]

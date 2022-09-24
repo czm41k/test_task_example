@@ -1,8 +1,8 @@
 ---
-name: Deploy app with helm
+name: 'App: Deploy with helm'
 on:
   workflow_run:
-    workflows: ["Check, build and upload artifact"]
+    workflows: ["'App: Check, build and upload artifact'"]
     types: ["completed"]
   workflow_dispatch:
     inputs:
