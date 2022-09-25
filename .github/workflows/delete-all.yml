@@ -29,18 +29,16 @@ jobs:
         varFilePath: ./.github/variables/dev-vars.env
     - name: Generate BUCKET_NAME envvar
       run: echo "BUCKET_NAME=${{env.OWNER}}-terraform-${{env.ENVR}}-state" >> $GITHUB_ENV
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+    - name: Setup Terragrunt
+      uses: autero1/action-terragrunt@v1.1.0
       with:
-        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+        terragrunt_version: ${{ env.terragrunt_version }}
     - name: Configure aws-cli
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-region: ${{ env.AWS_DEFAULT_REGION }}
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terragrunt Init
       run: terragrunt init
 
@@ -70,7 +68,6 @@ jobs:
       uses: ./.github/actions/set-vars
       with:
         varFilePath: ./.github/variables/dev-vars.env
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
