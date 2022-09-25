@@ -53,5 +53,6 @@ jobs:
       if: failure() # https://archive.sweetops.com/terraform/2021/07/
       run: aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name czm41k-eks-dev
     - name: Terraform Apply with mounted kubeconfig
+      if: failure()
       run: KUBE_CONFIG_PATH=~/home/runner/.kube/config terraform apply -auto-approve -input=false
 ...
