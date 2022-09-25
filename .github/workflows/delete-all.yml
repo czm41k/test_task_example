@@ -3,10 +3,11 @@ name: '4-Destroy all infra'
 on:
   workflow_dispatch:
     inputs:
-      force_destroy:
+      delete_remote:
         description: 'Destroy s3-bucket & dynamodb lock anyway'
         required: true
         type: boolean
+        default: false
       tool:
         description: "Which tool to use: terraform or terragrunt"
         required: true
@@ -99,7 +100,7 @@ jobs:
       continue-on-error: true
 
   delete-remote-state:
-    if: success() && ${{inputs.force_destroy}}
+    if: ${{inputs.delete_remote}}
     needs: [terraform-destroy, terragrunt-destroy]
     runs-on: ubuntu-latest
     steps:
