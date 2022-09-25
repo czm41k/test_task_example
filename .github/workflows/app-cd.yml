@@ -4,12 +4,12 @@ on:
   # workflow_run:
   #   workflows: ["2-App: Check, build and upload artifact"]
   #   types: ["completed"]
-  workflow_call:
-    inputs:
-      tag:
-        required: true
-        type: string
-        description: 'Image tag'
+  # workflow_call:
+  #   inputs:
+  #     tag:
+  #       required: true
+  #       type: string
+  #       description: 'Image tag'
   workflow_dispatch:
     inputs:
       tag:
