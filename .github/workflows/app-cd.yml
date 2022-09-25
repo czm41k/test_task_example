@@ -59,7 +59,7 @@ jobs:
     #     echo ${{ env.TAG }}
     - name: install app with helm --dry-run
       working-directory: helm-charts/python-webserver/
-      run: helm upgrade python-webserver . --install --wait --atomic --dry-run --create-namespace --namespace=app --timeout=5m --set image.repository=${{ env.REPO }} --set image.tag=${{ env.TAG }}
+      run: helm upgrade python-webserver . --install --wait --atomic --dry-run --create-namespace --namespace=app --timeout=5m --set image.repository=${{ env.REPO }} --set image.tag=${{ inputs.TAG }}
     - name: Approve before deploy
       uses: trstringer/manual-approval@main
       with:
@@ -68,5 +68,5 @@ jobs:
 
     - name: install app with helm
       working-directory: helm-charts/python-webserver/
-      run: helm upgrade python-webserver . --install --wait --atomic --create-namespace --namespace=app --timeout=5m --set image.repository=${{ env.REPO }} --set image.tag=${{ env.TAG }}
+      run: helm upgrade python-webserver . --install --wait --atomic --create-namespace --namespace=app --timeout=5m --set image.repository=${{ env.REPO }} --set image.tag=${{ inputs.TAG }}
 ...
