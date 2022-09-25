@@ -11,21 +11,6 @@ remote_state {
         encrypt = true
     }
 }
-// generate "backend" {
-//   path      = "backend.tf"
-//   if_exists = "overwrite_terragrunt"
-//   contents = <<EOF
-// terraform {
-//   backend "s3" {
-//     bucket         = "${get_env("OWNER", "")}-terragrunt-${get_env("ENVR", "")}-state"
-//     key            = "${path_relative_to_include()}/terraform.tfstate"
-//     region         = "us-west-1"
-//     encrypt        = true
-//     dynamodb_table = "${get_env("OWNER", "")}-terragrunt-${get_env("ENVR", "")}-state-lock"
-//   }
-// }
-// EOF
-// }
 
 terraform {
     extra_arguments "common_vars" {
