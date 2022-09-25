@@ -44,10 +44,12 @@ jobs:
       env:
         TF_LOG: ERROR
       run: |
-        terraform plan -input=false -detailed-exitcode -json
+        res=$(terraform plan -input=false -detailed-exitcode || true) | grep "exit code"
+        # Parsing exit-code from plain text
+        CODE=echo $res | cut -d ' ' -f 6 | cut -d '.' -f 1
         # || CODE=$?
-        # echo "CODE is ${CODE:='0'}"
-        # echo "CODE=${CODE:='0'}" >> $GITHUB_REF
+        echo "CODE is ${CODE:='0'}"
+        echo "CODE=${CODE:='0'}" >> $GITHUB_REF
     - name: Approve before apply in case of changes
       if: ${{ failure() && env.CODE == '2' }} # Run in case of changes only
       uses: trstringer/manual-approval@main
