@@ -18,6 +18,8 @@ jobs:
     name: 'Run aws-cli'
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout repo
+      uses: actions/checkout@v1
     - name: Set Environment Variables
       uses: ./.github/actions/set-vars
       with:

@@ -28,6 +28,8 @@ jobs:
     runs-on: 'ubuntu-latest'
     if: ${{ inputs.tag }}
     steps:
+    - name: Checkout repo
+      uses: actions/checkout@v1
     - name: Set Environment Variables
       uses: ./.github/actions/set-vars
       with:
@@ -45,8 +47,6 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
     - name: Generate kubeconfig with aws-cli
       run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
-    - name: Checkout repo
-      uses: actions/checkout@v1
     - name: install helm3
       uses: azure/setup-helm@v3
       with:
@@ -67,6 +67,8 @@ jobs:
     needs: [deploy]
     runs-on: 'ubuntu-latest'
     steps:
+    - name: Checkout repo
+      uses: actions/checkout@v1
     - name: Set Environment Variables
       uses: ./.github/actions/set-vars
       with:
