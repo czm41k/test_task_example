@@ -47,7 +47,7 @@ jobs:
 
   terragrunt-destroy:
     needs: [delete-app-release]
-    if: ${{ inputs.tool == 'terragrunt' && (failure() or success()) }}
+    if: ${{ inputs.tool == 'terragrunt' && always() }}
     name: "Destroy with Terragrunt"
     runs-on: ubuntu-latest
     defaults:
@@ -86,7 +86,7 @@ jobs:
       continue-on-error: true
 
   terraform-destroy:
-    if: ${{ inputs.tool == 'terraform' && (failure() or success()) }}
+    if: ${{ inputs.tool == 'terraform' && always() }}
     needs: [delete-app-release]
     name: "Destroy with Terraform"
     runs-on: ubuntu-latest
