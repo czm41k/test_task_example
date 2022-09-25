@@ -68,8 +68,9 @@ jobs:
       run: aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.REPO }}
     - name: Upload to Registry
       run: docker push ${{ env.REPO }}:${{ env.TAG }}
-    - name: Call deploy with helm workflow
-      uses: czm41k/naviteq_private/.github/workflows/app-cd.yml@main
-      with:
-        tag: ${{ env.TAG }}
+  call-deploy:
+    name: Call deploy with helm workflow
+    uses: czm41k/naviteq_private/.github/workflows/app-cd.yml@main
+    with:
+      tag: ${{ env.TAG }}
 ...
