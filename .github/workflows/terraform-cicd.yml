@@ -14,12 +14,12 @@ on:
   workflow_dispatch:
 
 env:
-  OWNER: "czm41k"
-  ENVR: "dev"
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
-  AWS_DEFAULT_REGION: "us-west-1"
-  KUBE_CONFIG_PATH: /home/runner/.kube/config
+  # OWNER: "czm41k"
+  # ENVR: "dev"
+  # AWS_DEFAULT_REGION: "us-west-1"
+  # KUBE_CONFIG_PATH: /home/runner/.kube/config
 
 jobs:
   format_and_plan:
@@ -30,6 +30,10 @@ jobs:
         working-directory: terraform/dev/
         shell: bash
     steps:
+    - name: Set Environment Variables
+      uses: ./.github/actions/set-vars
+      with:
+        varFilePath: ./.github/variables/myvars.env
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3

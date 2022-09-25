@@ -17,17 +17,21 @@ on:
         required: true
         type: string
 
-env:
-  OWNER: "czm41k"
-  ENVR: "dev"
-  AWS_REGION: "us-west-1"
-  APP_NAME: "python-webserver"
+# env:
+#   OWNER: "czm41k"
+#   ENVR: "dev"
+#   AWS_REGION: "us-west-1"
+#   APP_NAME: "python-webserver"
 
 jobs:
   deploy:
     runs-on: 'ubuntu-latest'
     if: ${{ inputs.tag }}
     steps:
+    - name: Set Environment Variables
+      uses: ./.github/actions/set-vars
+      with:
+        varFilePath: ./.github/variables/myvars.env
     - name: Generate REPO & BUCKET_NAME envvars
       run: |
         echo "REPO=617686195573.dkr.ecr.us-west-1.amazonaws.com/${{ env.OWNER }}-python-webserver-${{ env.ENVR }}" >> $GITHUB_ENV
@@ -63,6 +67,10 @@ jobs:
     needs: [deploy]
     runs-on: 'ubuntu-latest'
     steps:
+    - name: Set Environment Variables
+      uses: ./.github/actions/set-vars
+      with:
+        varFilePath: ./.github/variables/myvars.env
     - name: Configure aws-cli
       uses: aws-actions/configure-aws-credentials@v1
       with:
