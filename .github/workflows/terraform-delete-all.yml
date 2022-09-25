@@ -25,11 +25,11 @@ jobs:
         working-directory: terraform/dev/
         shell: bash
     steps:
-    - name: Generate BUCKET_NAME envvar
-      run: echo "BUCKET_NAME=${{env.OWNER}}-terraform-${{env.ENVR}}-state" >> $GITHUB_ENV
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
+    - name: Generate BUCKET_NAME envvar
+      run: echo "BUCKET_NAME=${{env.OWNER}}-terraform-${{env.ENVR}}-state" >> $GITHUB_ENV
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
