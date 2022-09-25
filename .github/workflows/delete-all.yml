@@ -7,6 +7,11 @@ on:
         description: 'Destroy s3-bucket & dynamodb lock anyway'
         required: true
         type: boolean
+      tool:
+        description: "Which tool to use: terraform or terragrunt"
+        required: true
+        default: "terragrunt"
+        type: string
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
@@ -14,6 +19,7 @@ env:
 
 jobs:
   terragrunt-destroy:
+    if: ${{ inputs.tool == 'terragrunt' }}
     name: "Destroy with Terragrunt"
     runs-on: ubuntu-latest
     defaults:
@@ -55,6 +61,7 @@ jobs:
       continue-on-error: true
 
   terraform-destroy:
+    if: ${{ inputs.tool == 'terraform' }}
     name: "Destroy with Terraform"
     runs-on: ubuntu-latest
     defaults:
