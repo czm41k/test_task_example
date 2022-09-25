@@ -41,21 +41,12 @@ jobs:
     - name: Terraform Format
       run: terraform fmt -check
     - name: Terraform plan with changes detection
-      run: |
-        res=$(terraform plan -input=false -detailed-exitcode  | grep "exit code")
-        # Parsing exit-code from plain text
-        echo $res
-        CODE=$(echo $res | cut -d ' ' -f 6 | cut -d '.' -f 1)
-        # || CODE=$?
-        echo "CODE is ${CODE:='0'}"
-        echo "CODE=${CODE:='0'}" >> $GITHUB_REF
+      run: terraform plan -input=false 
     - name: Approve before apply in case of changes
-      if: ${{ failure() && env.CODE == '2' }} # Run in case of changes only
       uses: trstringer/manual-approval@main
       with:
         secret: ${{ github.TOKEN }}
         approvers: czm41k
     - name: Terraform Apply
-      if: ${{ always() && env.CODE == '2' }} # Run in case of changes only
       run: terraform apply -auto-approve -input=false
 ...
