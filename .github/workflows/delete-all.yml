@@ -83,7 +83,6 @@ jobs:
       run: |
         aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}" || true
         terragrunt destroy --auto-approve=true
-      continue-on-error: true
 
   terraform-destroy:
     if: ${{ inputs.tool == 'terraform' && always() }}
