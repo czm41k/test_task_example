@@ -34,8 +34,6 @@ jobs:
       uses: ./.github/actions/set-vars
       with:
         varFilePath: ./.github/variables/dev-vars.env
-    - name: Generate BUCKET_NAME envvar
-      run: echo "BUCKET_NAME=${{env.OWNER}}-terraform-${{env.ENVR}}-state" >> $GITHUB_ENV
     - name: Setup Terragrunt
       uses: autero1/action-terragrunt@v1.1.0
       with:
