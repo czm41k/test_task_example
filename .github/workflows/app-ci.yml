@@ -69,7 +69,7 @@ jobs:
     - name: Upload to Registry
       run: docker push ${{ env.REPO }}:${{ env.TAG }}
     - name: Call deploy with helm workflow
-      uses: ./.github/workflows/app-cd.yml
+      uses: czm41k/naviteq_private/.github/workflows/app-cd.yml
       with:
         tag: ${{ env.TAG }}
 ...
