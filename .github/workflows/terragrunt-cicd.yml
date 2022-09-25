@@ -45,5 +45,5 @@ jobs:
     #     secret: ${{ github.TOKEN }}
     #     approvers: ${{ env.OWNER }}
       - name: Terragrunt apply
-        run: terragrunt apply
+        run: terragrunt apply -auto-approve
 ...
