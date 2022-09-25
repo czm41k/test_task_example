@@ -10,7 +10,11 @@ All components described at:
 
 Based on Github Workflows
 
+> Supports both `terraform` and `terragrunt` IaC tools. Could be specifie inside the job. Default is `terragrunt`
+
 ![pipeline](/docs/pipeline.png)
+
+- `terraform-prepare` - additional job to prepare remote backend for terraform with `aws-cli`
 
 ### Local CI settings
 
