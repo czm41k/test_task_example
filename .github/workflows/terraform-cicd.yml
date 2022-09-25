@@ -52,10 +52,9 @@ jobs:
     #     approvers: ${{ env.OWNER }}
     - name: Terraform Apply
       run: terraform apply -auto-approve -input=false
-      continue-on-error: true # allow fail for the 1st time
-    - if: failure()
-      # https://archive.sweetops.com/terraform/2021/07/
-      name: Get kubeconfig mounted and try apply again
+      continue-on-error: true # https://archive.sweetops.com/terraform/2021/07/ allow to fail
+    - name: Get kubeconfig mounted and try apply again
+      # if: failure()
       run: |
         aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
         terraform apply -auto-approve -input=false
