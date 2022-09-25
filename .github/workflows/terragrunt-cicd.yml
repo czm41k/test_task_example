@@ -13,8 +13,8 @@ on:
   workflow_dispatch:
 
 env:
-  tf_version: 'v1.2.9'
-  tg_version: 'v0.38.12'
+  tf_version: '1.2.9'
+  tg_version: '0.38.12'
   tf_working_dir: 'terragrunt/dev/eks-infra/'
 jobs:
   terragrunt:
