@@ -99,7 +99,7 @@ jobs:
       continue-on-error: true
 
   delete-remote-state:
-    if: (cancelled() && ${{ inputs.force_destroy }}) || success()
+    if: success() || (always() && ${{inputs.force_destroy}})
     needs: [terraform-destroy, terragrunt-destroy]
     runs-on: ubuntu-latest
     steps:
@@ -117,10 +117,8 @@ jobs:
         aws-region: ${{ env.AWS_DEFAULT_REGION }}
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-    - if: success() || (always() && ${{inputs.force_destroy}})
-      name: Delete S3 bucket
+    - name: Delete S3 bucket
       run: aws s3 rb s3://${{ env.BUCKET_NAME }} --force
-    - if: success() || (always() && ${{inputs.force_destroy}})
-      name: Delete dynamodb table
+    - name: Delete dynamodb table
       run: aws dynamodb delete-table --table-name "${{ env.BUCKET_NAME }}-lock"
 ...
