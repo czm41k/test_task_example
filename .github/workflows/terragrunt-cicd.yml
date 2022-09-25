@@ -13,10 +13,10 @@ on:
   #   types: ["completed"]
   workflow_dispatch:
 
-# env:
-#   tf_version: '1.2.9'
-#   tg_version: '0.38.12'
-#   tf_working_dir: 'terragrunt/dev/eks-infra/'
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+
 jobs:
   terragrunt:
     name: 'Run terragrunt'
