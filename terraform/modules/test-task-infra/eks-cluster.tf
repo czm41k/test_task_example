@@ -17,7 +17,7 @@ module "eks" {
   }
   eks_managed_node_groups = {
     green = {
-      name           = "${var.owner}-eks-node-group-${var.env}"
+      name           = "${var.owner}-eks-ng-${var.env}"
       instance_types = ["t3.small"]
       min_size       = 0
       max_size       = 1
