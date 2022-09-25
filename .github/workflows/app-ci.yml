@@ -47,15 +47,21 @@ jobs:
       run: echo "REPO=617686195573.dkr.ecr.us-west-1.amazonaws.com/${{ env.OWNER }}-python-webserver-${{ env.ENVR }}" >> $GITHUB_ENV
     - uses: actions/checkout@v3
     - name: Set tag
+      id: set-tag
       env:
         MANUAL_TAG: ${{inputs.tag }}
       run: |
         if [[ $MANUAL_TAG ]]
         then
-          echo "TAG=${{ inputs.tag }}" >> $GITHUB_ENV
+          TAG=${{ inputs.tag }}
         else
-          echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+          TAG=${GITHUB_REF_NAME}
         fi
+        echo "TAG is ${TAG}"
+        echo "Putting TAG to GITHUB_ENV"
+        echo "TAG=${TAG}" >> $GITHUB_ENV
+        echo "Putting tag for job output (to pass to deploy) as well"
+        echo "::set-output name=TAG::${TAG}"
     - name: Build the Docker image
       run: docker build app-code/ --file app-code/Dockerfile --tag ${{ env.REPO }}:${{ env.TAG }}
     - name: Configure aws-cli
@@ -68,9 +74,13 @@ jobs:
       run: aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.REPO }}
     - name: Upload to Registry
       run: docker push ${{ env.REPO }}:${{ env.TAG }}
+    outputs:
+      TAG: ${{ steps.set-tag.outputs.TAG }}
+
   call-deploy:
+    needs: [build]
     name: Call deploy with helm workflow
     uses: czm41k/naviteq_private/.github/workflows/app-cd.yml@main
     with:
-      tag: ${{ env.TAG }}
+      tag: ${{ needs.build.outputs.TAG }}
 ...
