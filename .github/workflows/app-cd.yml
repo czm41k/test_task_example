@@ -58,6 +58,6 @@ jobs:
     - name: install app with helm
       working-directory: helm-charts/python-webserver/
       run: helm upgrade python-webserver . --install --wait --atomic --create-namespace --namespace=app --timeout=5m --set image.repository=${{ env.REPO }} --set image.tag=${{ inputs.TAG }}
-    - name: Get app endpoint
+    - name: Get exposed APP endpoint
       run: kubectl -n app get svc ${{ env.APP_NAME }} --output jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 ...
