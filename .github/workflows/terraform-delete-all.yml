@@ -54,6 +54,7 @@ jobs:
       run: |
         aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
         terraform destroy --auto-approve=true
+      continue-on-error: true
     - if: success() || (always() && ${{inputs.force_destroy}})
       name: Delete S3 bucket
       run: aws s3 rb s3://${{ env.BUCKET_NAME }} --force
