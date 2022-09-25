@@ -47,11 +47,12 @@ jobs:
     #   with:
     #     secret: ${{ github.TOKEN }}
     #     approvers: czm41k
-    - name: Terraform Apply
-      run: terraform apply -auto-approve -input=false
-    - name: Get kubeconfig if cluster created and try apply again
-      if: failure() # https://archive.sweetops.com/terraform/2021/07/
-      run: |
-        aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name czm41k-eks-dev
-        KUBE_CONFIG_PATH=/home/runner/.kube/config terraform apply -auto-approve -input=false
-...
+    - name: Terraform Apply with mounted kubeconfig
+      run: KUBE_CONFIG_PATH=/home/runner/.kube/config terraform apply -auto-approve -input=false
+#     - if: failure()
+#       # https://archive.sweetops.com/terraform/2021/07/
+#       name: Get kubeconfig if cluster created and try apply again
+#       run: |
+#         aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name czm41k-eks-dev
+#         KUBE_CONFIG_PATH=/home/runner/.kube/config terraform apply -auto-approve -input=false
+# ...
