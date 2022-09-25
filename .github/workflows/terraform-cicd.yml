@@ -40,7 +40,7 @@ jobs:
       run: terraform init
     - name: Terraform Format
       run: terraform fmt -check
-    - name: Terraform plan with changes detection
+    - name: Terraform Plan
       run: terraform plan -input=false
     - name: Approve before apply
       uses: trstringer/manual-approval@main
@@ -50,8 +50,8 @@ jobs:
     - name: Terraform Apply
       run: terraform apply -auto-approve -input=false
     - name: Get kubeconfig if cluster created
-      if: failure()
-      run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name czm41k-eks-dev
+      if: failure() # https://archive.sweetops.com/terraform/2021/07/
+      run: aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name czm41k-eks-dev
     # - name: Terraform Apply with mounted kubeconfig
     #   run: KUBE_CONFIG_PATH=~/.kube/config terraform apply -auto-approve -input=false
 ...
