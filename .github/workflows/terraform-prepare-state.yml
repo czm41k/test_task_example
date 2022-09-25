@@ -12,12 +12,13 @@ env:
   ENVR: dev
   OWNER: "czm41k"
   AWS_DEFAULT_REGION: "us-west-1"
-  BUCKET_NAME: "${{env.OWNER}}-terraform-${{ENVR}}-state"
 
 jobs:
   aws:
     name: 'Run aws-cli'
     runs-on: ubuntu-latest
+    env:
+      BUCKET_NAME: "${{env.OWNER}}-terraform-${{env.ENVR}}-state"
     steps:
     - name: Configure aws-cli
       uses: aws-actions/configure-aws-credentials@v1
