@@ -32,6 +32,12 @@ jobs:
       uses: hashicorp/setup-terraform@v1
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+    - name: Configure aws-cli
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
@@ -42,21 +48,15 @@ jobs:
     #     approvers: czm41k
     - name: Terraform destroy
       run: terraform destroy --auto-approve=true
-
-  destroy_state:
-    needs: [terraform-destroy]
-    if: success() || (always() && ${{inputs.force_destroy}})
-    name: "Delete terraform remote backend state"
-    runs-on: ubuntu-latest
-    steps:
-    - name: Configure aws-cli
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-region: ${{ env.AWS_DEFAULT_REGION }}
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
     - name: Delete S3 bucket
       run: aws s3 rb s3://${{ env.BUCKET_NAME }} --force
     - name: Delete dynamodb table
       run: aws dynamodb delete-table --table-name "${{ env.BUCKET_NAME }}-lock"
 ...
+
+  # destroy_state:
+  #   needs: [terraform-destroy]
+  #   if: success() || (always() && ${{inputs.force_destroy}})
+  #   name: "Delete terraform remote backend state"
+  #   runs-on: ubuntu-latest
+  #   steps:
