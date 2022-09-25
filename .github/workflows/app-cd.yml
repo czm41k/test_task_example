@@ -15,14 +15,16 @@ env:
   OWNER: "czm41k"
   ENVR: "dev"
   AWS_REGION: "us-west-1"
-  REPO: "617686195573.dkr.ecr.us-west-1.amazonaws.com/${OWNER}-python-webserver-${ENVR}"
-  BUCKET_NAME: "${OWNER}-terraform-state"
 
 jobs:
   deploy:
     runs-on: 'ubuntu-latest'
     if: ${{ github.event.workflow_run.conclusion == 'success' }} or ${{ inputs.tag }}
     steps:
+    - name: Generate REPO & BUCKET_NAME envvars
+      run: |
+        echo "REPO=617686195573.dkr.ecr.us-west-1.amazonaws.com/${{ env.OWNER }}-python-webserver-${{ env.ENVR }}" >> $GITHUB_ENV
+        echo "BUCKET_NAME=${{env.OWNER}}-terraform-${{env.ENVR}}-state" >> $GITHUB_ENV
     - name: Configure aws-cli
       uses: aws-actions/configure-aws-credentials@v1
       with:
