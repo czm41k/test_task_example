@@ -42,7 +42,7 @@ jobs:
       run: terraform fmt -check
     - name: Terraform plan with changes detection
       run: |
-        res=$(terraform plan -input=false -detailed-exitcode || true) | grep "exit code"
+        res=$(terraform plan -input=false -detailed-exitcode  | grep "exit code")
         # Parsing exit-code from plain text
         echo $res
         CODE=$(echo $res | cut -d ' ' -f 6 | cut -d '.' -f 1)
