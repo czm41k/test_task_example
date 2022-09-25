@@ -120,6 +120,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
     - name: Delete S3 bucket
       run: aws s3 rb s3://${{ env.BUCKET_NAME }} --force
-    - name: Delete dynamodb table
+    - if: ${{ inputs.tool == 'terraform' }}
+      name: Delete dynamodb table
       run: aws dynamodb delete-table --table-name "${{ env.BUCKET_NAME }}-lock"
 ...
