@@ -57,7 +57,7 @@ jobs:
       working-directory: helm-charts/python-webserver/
       run: helm upgrade python-webserver . --install --wait --atomic --create-namespace --namespace=app --timeout=5m --set image.repository=${{ env.REPO }} --set image.tag=${{ inputs.TAG }}
 
-  get-app-ip:
+  get-app-endpoint:
     needs: [deploy]
     runs-on: 'ubuntu-latest'
     steps:
