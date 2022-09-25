@@ -6,7 +6,7 @@ module "eks" {
   cluster_version           = "1.22"
   vpc_id                    = module.vpc.vpc_id
   subnet_ids                = module.vpc.private_subnets
-  create_aws_auth_configmap = true
+  create_aws_auth_configmap = false
   aws_auth_users            = local.users_access_dict
   eks_managed_node_group_defaults = {
     ami_type                              = "AL2_x86_64"
