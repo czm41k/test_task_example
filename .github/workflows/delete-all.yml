@@ -137,7 +137,15 @@ jobs:
       with:
         varFilePath: ./.github/variables/dev-vars.env
     - name: Generate BUCKET_NAME envvar
-      run: echo "BUCKET_NAME=${{env.OWNER}}-terraform-${{env.ENVR}}-state" >> $GITHUB_ENV
+      run: |
+        if [[ ${{inputs.tool }} -eq 'terraform' ]]
+        then
+          BUCKET_NAME="${{env.OWNER}}-${{ inputs.tool }}-${{env.ENVR}}-state"
+        else
+          BUCKET_NAME="${{env.OWNER}}-${{ inputs.tool }}-state"
+        fi
+        echo "BUCKET_NAME=${BUCKET_NAME}" >> $GITHUB_ENV
+        echo "BUCKET_NAME is ${BUCKET_NAME}"
     - name: Configure aws-cli
       uses: aws-actions/configure-aws-credentials@v1
       with:
