@@ -42,7 +42,7 @@ jobs:
     - name: Set Environment Variables
       uses: ./.github/actions/set-vars
       with:
-        varFilePath: ./.github/variables/myvars.env
+        varFilePath: ./.github/variables/dev-vars.env
     - name: Generate REPO envvar
       run: echo "REPO=617686195573.dkr.ecr.us-west-1.amazonaws.com/${{ env.OWNER }}-python-webserver-${{ env.ENVR }}" >> $GITHUB_ENV
     - name: Set tag

@@ -13,8 +13,8 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
 
 jobs:
-  terraform-destroy:
-    name: "Terraform destroy"
+  terragrunt-destroy:
+    name: "Destroy with Terragrunt"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -26,7 +26,7 @@ jobs:
     - name: Set Environment Variables
       uses: ./.github/actions/set-vars
       with:
-        varFilePath: ./.github/variables/myvars.env
+        varFilePath: ./.github/variables/dev-vars.env
     - name: Generate BUCKET_NAME envvar
       run: echo "BUCKET_NAME=${{env.OWNER}}-terraform-${{env.ENVR}}-state" >> $GITHUB_ENV
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
@@ -43,8 +43,7 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terragrunt Init
       run: terragrunt init
-    # - name: Terraform Init
-    #   run: terraform init
+
     - name: Approve before Destroy
       uses: trstringer/manual-approval@main
       with:
@@ -56,12 +55,60 @@ jobs:
         aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
         terragrunt destroy --auto-approve=true
       continue-on-error: true
-    # - name: Terraform destroy with mounted kubeconfig
-    #   # https://archive.sweetops.com/terraform/2021/07/
-    #   run: |
-    #     aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
-    #     terraform destroy --auto-approve=true
-    #   continue-on-error: true
+
+  terraform-destroy:
+    name: "Destroy with Terraform"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform/dev/
+        shell: bash
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+    - name: Set Environment Variables
+      uses: ./.github/actions/set-vars
+      with:
+        varFilePath: ./.github/variables/dev-vars.env
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+    - name: Configure aws-cli
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+    - name: Terraform Init
+      run: terraform init
+    - name: Terraform destroy with mounted kubeconfig
+      # https://archive.sweetops.com/terraform/2021/07/
+      run: |
+        aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
+        terraform destroy --auto-approve=true
+      continue-on-error: true
+
+  delete-remote-state:
+    if: success() || ${{ inputs.force_destroy }}
+    needs: [terraform-destroy, terragrunt-destroy]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+    - name: Set Environment Variables
+      uses: ./.github/actions/set-vars
+      with:
+        varFilePath: ./.github/variables/dev-vars.env
+    - name: Generate BUCKET_NAME envvar
+      run: echo "BUCKET_NAME=${{env.OWNER}}-terraform-${{env.ENVR}}-state" >> $GITHUB_ENV
+    - name: Configure aws-cli
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
     - if: success() || (always() && ${{inputs.force_destroy}})
       name: Delete S3 bucket
       run: aws s3 rb s3://${{ env.BUCKET_NAME }} --force

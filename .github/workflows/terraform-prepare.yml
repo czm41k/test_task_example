@@ -18,7 +18,7 @@ jobs:
     - name: Set Environment Variables
       uses: ./.github/actions/set-vars
       with:
-        varFilePath: ./.github/variables/myvars.env
+        varFilePath: ./.github/variables/dev-vars.env
     - name: Generate BUCKET_NAME envvar
       run: echo "BUCKET_NAME=${{env.OWNER}}-terraform-${{env.ENVR}}-state" >> $GITHUB_ENV
     - name: Configure aws-cli
