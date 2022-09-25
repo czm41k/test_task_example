@@ -8,16 +8,20 @@ on:
       - '.github/workflows/terraform-prepare*'
   workflow_dispatch:
 
-env:
-  ENVR: dev
-  OWNER: "czm41k"
-  AWS_DEFAULT_REGION: "us-west-1"
+# env:
+#   ENVR: dev
+#   OWNER: "czm41k"
+#   AWS_DEFAULT_REGION: "us-west-1"
 
 jobs:
   aws:
     name: 'Run aws-cli'
     runs-on: ubuntu-latest
     steps:
+    - name: Set Environment Variables
+      uses: ./.github/actions/set-vars
+      with:
+        varFilePath: ./.github/variables/myvars.env
     - name: Generate BUCKET_NAME envvar
       run: echo "BUCKET_NAME=${{env.OWNER}}-terraform-${{env.ENVR}}-state" >> $GITHUB_ENV
     - name: Configure aws-cli
