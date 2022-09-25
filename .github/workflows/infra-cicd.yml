@@ -84,7 +84,7 @@ jobs:
       - name: Interact with Terragrunt
         run: terragrunt --version
       - name: Terragrunt Init
-        run: terragrunt init
+        run: echo "y"|terragrunt init
       - name: Terragrunt plan
         run: terragrunt plan
 
