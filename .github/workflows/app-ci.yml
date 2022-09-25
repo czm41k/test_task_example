@@ -79,7 +79,7 @@ jobs:
 
   call-deploy:
     needs: [build]
-    name: Call deploy with helm workflow
+    name: Call app deployment workflow
     uses: czm41k/naviteq_private/.github/workflows/app-cd.yml@main
     with:
       tag: ${{ needs.build.outputs.TAG }}
