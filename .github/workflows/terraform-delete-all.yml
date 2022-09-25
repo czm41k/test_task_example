@@ -1,5 +1,5 @@
 ---
-name: '3-Terraform: Destroy all infra'
+name: '4-Terraform: Destroy all infra'
 on:
   workflow_dispatch:
     inputs:

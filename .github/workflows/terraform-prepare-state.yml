@@ -1,5 +1,5 @@
 ---
-name: '1-Terraform: Create s3-backend for state'
+name: '0-Terraform: Create s3-backend for state'
 
 on:
   push:

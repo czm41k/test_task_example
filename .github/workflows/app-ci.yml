@@ -1,5 +1,5 @@
 ---
-name: 'App: Check, build and upload artifact'
+name: '2-App: Check, build and upload artifact'
 on:
   push:
     tags: [ "v[0-9].[0-9]+.[0-9]" ]
