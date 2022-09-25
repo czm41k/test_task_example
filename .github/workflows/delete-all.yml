@@ -47,12 +47,11 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
     - name: Terragrunt Init
       run: terragrunt init
-
-    - name: Approve before Destroy
-      uses: trstringer/manual-approval@main
-      with:
-        secret: ${{ github.TOKEN }}
-        approvers: ${{ env.OWNER }}
+    # - name: Approve before Destroy
+    #   uses: trstringer/manual-approval@main
+    #   with:
+    #     secret: ${{ github.TOKEN }}
+    #     approvers: ${{ env.OWNER }}
     - name: Terragrunt destroy with mounted kubeconfig
       # https://archive.sweetops.com/terraform/2021/07/
       run: |
@@ -87,6 +86,11 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
     - name: Terraform Init
       run: terraform init
+    # - name: Approve before Destroy
+    #   uses: trstringer/manual-approval@main
+    #   with:
+    #     secret: ${{ github.TOKEN }}
+    #     approvers: ${{ env.OWNER }}
     - name: Terraform destroy with mounted kubeconfig
       # https://archive.sweetops.com/terraform/2021/07/
       run: |
