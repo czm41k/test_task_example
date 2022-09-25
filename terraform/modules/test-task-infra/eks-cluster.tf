@@ -8,18 +8,6 @@ module "eks" {
   subnet_ids                = module.vpc.private_subnets
   create_aws_auth_configmap = true
   aws_auth_users            = local.users_access_dict
-  # aws_auth_users = [
-  #   {
-  #     userarn  = "arn:aws:iam::66666666666:user/user1"
-  #     username = "user1"
-  #     groups   = ["system:masters"]
-  #   },
-  #   {
-  #     userarn  = "arn:aws:iam::66666666666:user/user2"
-  #     username = "user2"
-  #     groups   = ["system:masters"]
-  #   },
-  # ]
   eks_managed_node_group_defaults = {
     ami_type                              = "AL2_x86_64"
     attach_cluster_primary_security_group = false

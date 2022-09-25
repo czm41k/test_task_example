@@ -2,7 +2,7 @@
 name: '3-App: Deploy with helm'
 on:
   workflow_run:
-    workflows: ["App: Check, build and upload artifact"]
+    workflows: ["2-App: Check, build and upload artifact"]
     types: ["completed"]
   workflow_dispatch:
     inputs:
