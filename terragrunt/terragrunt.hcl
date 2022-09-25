@@ -1,11 +1,8 @@
 remote_state {
     backend = "s3"
     generate {
-        path = "_backend_${var.env}.tf"
+        path = "_backend.tf"
         if_exists = "overwrite"
-        contents = <<EOF
-variable "env" {}
-EOF
     }
     config = {
         bucket = "czm41k-terragrunt-state"
@@ -13,15 +10,6 @@ EOF
         key = "${path_relative_to_include()}/terraform.tfstate"
         encrypt = true
     }
-}
-
-generate "config" {
-    path = "_config.tf"
-    if_exists = "overwrite"
-
-    contents = <<EOF
-
-EOF
 }
 
 terraform {
