@@ -50,10 +50,10 @@ jobs:
     #     approvers: czm41k
     - name: Terraform Apply with mounted kubeconfig
       run: terraform apply -auto-approve -input=false
-#     - if: failure()
-#       # https://archive.sweetops.com/terraform/2021/07/
-#       name: Get kubeconfig if cluster created and try apply again
-#       run: |
-#         aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name czm41k-eks-dev
-#         KUBE_CONFIG_PATH=/home/runner/.kube/config terraform apply -auto-approve -input=false
-# ...
+    - if: failure()
+      # https://archive.sweetops.com/terraform/2021/07/
+      name: Get kubeconfig if cluster created and try apply again
+      run: |
+        aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name czm41k-eks-dev
+        terraform apply -auto-approve -input=false
+...
