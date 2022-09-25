@@ -17,13 +17,13 @@ on:
         required: true
         type: string
 
-env:
-  OWNER: "czm41k"
-  ENVR: "dev"
-  AWS_REGION: "us-west-1"
 
 jobs:
   deploy:
+    env:
+      OWNER: "czm41k"
+      ENVR: "dev"
+      AWS_REGION: "us-west-1"
     runs-on: 'ubuntu-latest'
     if: ${{ inputs.tag }}
     steps:

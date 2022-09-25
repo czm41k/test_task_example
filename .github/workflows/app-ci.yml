@@ -83,7 +83,7 @@ jobs:
     uses: czm41k/naviteq_private/.github/workflows/app-cd.yml@main
     with:
       tag: ${{ needs.build.outputs.TAG }}
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-      secret: ${{ github.TOKEN }}
+#       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+#       aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+#       secret: ${{ github.TOKEN }}
 ...
