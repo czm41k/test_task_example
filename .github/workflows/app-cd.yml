@@ -8,7 +8,7 @@ on:
     inputs:
       tag:
         description: 'Image tag'
-        required: true
+        required: false
         type: string
 
 env:
