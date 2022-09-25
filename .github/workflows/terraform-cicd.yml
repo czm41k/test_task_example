@@ -48,11 +48,11 @@ jobs:
       run: terraform fmt -check
     - name: Terraform Plan
       run: terraform plan -input=false
-    # - name: Approve before apply
-    #   uses: trstringer/manual-approval@main
-    #   with:
-    #     secret: ${{ github.TOKEN }}
-    #     approvers: ${{ env.OWNER }}
+    - name: Approve before apply
+      uses: trstringer/manual-approval@main
+      with:
+        secret: ${{ github.TOKEN }}
+        approvers: ${{ env.OWNER }}
     - name: Terraform Apply
       run: terraform apply -auto-approve -input=false
       continue-on-error: true # https://archive.sweetops.com/terraform/2021/07/ allow to fail
