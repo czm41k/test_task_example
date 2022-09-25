@@ -12,7 +12,7 @@ env:
   ENVR: dev
   OWNER: "czm41k"
   AWS_DEFAULT_REGION: "us-west-1"
-  BUCKET_NAME: "${OWNER}-terraform-${ENVR}-state"
+  BUCKET_NAME: "${{env.OWNER}}-terraform-${{ENVR}}-state"
 
 jobs:
   aws:
