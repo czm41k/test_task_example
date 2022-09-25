@@ -49,4 +49,9 @@ jobs:
         approvers: czm41k
     - name: Terraform Apply
       run: terraform apply -auto-approve -input=false
+    - name: Get kubeconfig if cluster created
+      if: failure()
+      run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name czm41k-eks-dev
+    # - name: Terraform Apply with mounted kubeconfig
+    #   run: KUBE_CONFIG_PATH=~/.kube/config terraform apply -auto-approve -input=false
 ...
