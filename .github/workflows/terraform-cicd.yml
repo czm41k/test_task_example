@@ -1,5 +1,5 @@
 ---
-name: 'Terraform CI/CD'
+name: '2-Terraform CI/CD'
 
 on:
   push:
