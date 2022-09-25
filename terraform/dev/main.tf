@@ -4,6 +4,8 @@ module "all-infra" {
   app_name              = var.app_name
   env                   = var.dev
   user_arns_access_list = var.user_arns_access_list
+  private_subnets       = ["10.0.1.0/24", "10.0.2.0/24"]
+  public_subnets        = ["10.0.4.0/24", "10.0.5.0/24"]
 }
 
 output "cluster_url" {

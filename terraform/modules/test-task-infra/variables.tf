@@ -25,3 +25,11 @@ variable "user_arns_access_list" {
   type        = list(any)
   default     = []
 }
+variable "private_subnets" {
+  description = "List of private subnets for VPC"
+  type        = list(any)
+}
+variable "public_subnets" {
+  description = "List of private subnets for VPC"
+  type        = list(any)
+}
