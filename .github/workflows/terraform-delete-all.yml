@@ -57,7 +57,7 @@ jobs:
     - name: Delete S3 bucket
       run: aws s3api delete-bucket --bucket ${{ env.BUCKET_NAME }} --region ${{ env.AWS_REGION }}
     - name: Delete S3 bucket
-      run: aws s3api delete-bucket --bucket ${{ env.BUCKET_NAME }} --region ${{ env.AWS_REGION }} --force
+      run: aws s3api delete-bucket --force --bucket ${{ env.BUCKET_NAME }} --region ${{ env.AWS_REGION }}
     - name: Delete dynamodb table
       run: aws dynamodb delete-table --table-name "${{ env.BUCKET_NAME }}-lock"
 ...
