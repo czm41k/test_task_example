@@ -34,11 +34,11 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
-    - name: Approve before Destroy
-      uses: trstringer/manual-approval@main
-      with:
-        secret: ${{ github.TOKEN }}
-        approvers: czm41k
+    # - name: Approve before Destroy
+    #   uses: trstringer/manual-approval@main
+    #   with:
+    #     secret: ${{ github.TOKEN }}
+    #     approvers: czm41k
     - name: Terraform destroy
       run: terraform destroy --auto-approve=true
 
