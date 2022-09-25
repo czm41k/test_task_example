@@ -17,9 +17,9 @@ jobs:
   aws:
     name: 'Run aws-cli'
     runs-on: ubuntu-latest
-    env:
-      BUCKET_NAME: "${{env.OWNER}}-terraform-${{env.ENVR}}-state"
     steps:
+    - name: Generate BUCKET_NAME envvar
+      run: echo "BUCKET_NAME=${{env.OWNER}}-terraform-${{env.ENVR}}-state" >> $GITHUB_ENV
     - name: Configure aws-cli
       uses: aws-actions/configure-aws-credentials@v1
       with:
