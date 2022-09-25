@@ -1,8 +1,8 @@
 module "all-infra" {
-  source   = "../modules/test-task-infra"
-  owner    = var.owner
-  app_name = var.app_name
-  env      = var.dev
+  source                = "../modules/test-task-infra"
+  owner                 = var.owner
+  app_name              = var.app_name
+  env                   = var.dev
   user_arns_access_list = var.user_arns_access_list
 }
 
