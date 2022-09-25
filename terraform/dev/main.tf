@@ -1,12 +1,9 @@
 module "all-infra" {
   source   = "../modules/test-task-infra"
-  owner    = "czm41k"
-  app_name = "python-webserver"
-  env      = "dev"
-  user_arns_access_list = [
-    "arn:aws:iam::723915311050:user/alex-berber",
-    "arn:aws:iam::723915311050:user/stepan"
-  ]
+  owner    = var.owner
+  app_name = var.app_name
+  env      = var.dev
+  user_arns_access_list = var.user_arns_access_list
 }
 
 output "cluster_url" {

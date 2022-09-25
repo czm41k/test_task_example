@@ -56,5 +56,5 @@ jobs:
       # if: failure()
       run: |
         aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
-        terraform apply -auto-approve -input=false
+        terraform apply -auto-approve -var-file="access.tfvars"
 ...

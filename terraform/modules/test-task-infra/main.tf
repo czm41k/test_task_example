@@ -28,4 +28,5 @@ locals {
       groups   = ["system:masters"]
     }
   ]
+  aws_users = length(var.user_arns_access_list) > 0 ? local.users_access_dict : []
 }
