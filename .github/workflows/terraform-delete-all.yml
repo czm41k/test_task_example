@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       force_destroy:
-        description: 'Should we run 2nd job anyway or not'
+        description: 'Destroy state bucket ^ dynamodb lock anyway'
         required: true
         type: boolean
 
