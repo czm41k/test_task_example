@@ -54,7 +54,7 @@ jobs:
     - name: Terragrunt destroy with mounted kubeconfig
       # https://archive.sweetops.com/terraform/2021/07/
       run: |
-        aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
+        aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}" || true
         terragrunt destroy --auto-approve=true
       continue-on-error: true
 
@@ -93,7 +93,7 @@ jobs:
     - name: Terraform destroy with mounted kubeconfig
       # https://archive.sweetops.com/terraform/2021/07/
       run: |
-        aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
+        aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}" || true
         terraform destroy --auto-approve=true
       continue-on-error: true
 
