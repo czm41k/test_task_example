@@ -19,7 +19,34 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
 
 jobs:
+  delete-app-release:
+    name: "Delete app with helm"
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+    - name: Set Environment Variables
+      uses: ./.github/actions/set-vars
+      with:
+        varFilePath: ./.github/variables/dev-vars.env
+    - name: Configure aws-cli
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: ${{ env.AWS_DEFAULT_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+    - name: Generate kubeconfig with aws-cli
+      run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
+    - name: install helm3
+      uses: azure/setup-helm@v3
+      with:
+        version: ${{ env.helm_version }}
+    - name: delete app with helm
+      working-directory: "helm-charts/${{ env.APP_NAME }}/"
+      run: helm uninstall ${{ env.APP_NAME }} --wait --namespace=app --timeout=5m
+
   terragrunt-destroy:
+    needs: [delete-app-release]
     if: ${{ inputs.tool == 'terragrunt' }}
     name: "Destroy with Terragrunt"
     runs-on: ubuntu-latest
@@ -60,6 +87,7 @@ jobs:
 
   terraform-destroy:
     if: ${{ inputs.tool == 'terraform' }}
+    needs: [delete-app-release]
     name: "Destroy with Terraform"
     runs-on: ubuntu-latest
     defaults:
@@ -99,7 +127,7 @@ jobs:
 
   delete-remote-state:
     if: ${{ always() && inputs.delete_remote }}
-    needs: [terraform-destroy, terragrunt-destroy]
+    needs: [delete-app-release, terraform-destroy, terragrunt-destroy]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repo

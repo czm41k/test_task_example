@@ -30,7 +30,7 @@ jobs:
         varFilePath: ./.github/variables/dev-vars.env
     - name: Generate REPO & BUCKET_NAME envvars
       run: |
-        echo "REPO=617686195573.dkr.ecr.us-west-1.amazonaws.com/${{ env.OWNER }}-python-webserver-${{ env.ENVR }}" >> $GITHUB_ENV
+        echo "REPO=617686195573.dkr.ecr.us-west-1.amazonaws.com/${{ env.OWNER }}-${{ env.APP_NAME }}-${{ env.ENVR }}" >> $GITHUB_ENV
         echo "BUCKET_NAME=${{env.OWNER}}-terraform-${{env.ENVR}}-state" >> $GITHUB_ENV
         echo "TAG=${{ inputs.tag }}" >> $GITHUB_ENV
     - name: Configure aws-cli
@@ -44,18 +44,18 @@ jobs:
     - name: install helm3
       uses: azure/setup-helm@v3
       with:
-        version: '3.9.4'
+        version: ${{ env.helm_version }}
     - name: install app with helm --dry-run
-      working-directory: helm-charts/python-webserver/
-      run: helm upgrade python-webserver . --install --wait --atomic --dry-run --create-namespace --namespace=app --timeout=5m --set image.repository=${{ env.REPO }} --set image.tag=${{ inputs.TAG }}
+      working-directory: "helm-charts/${{ env.APP_NAME }}/"
+      run: helm upgrade ${{ env.APP_NAME }} . --install --wait --atomic --dry-run --create-namespace --namespace=app --timeout=5m --set image.repository=${{ env.REPO }} --set image.tag=${{ inputs.TAG }}
     - name: Approve before deploy
       uses: trstringer/manual-approval@main
       with:
         secret: ${{ github.TOKEN }}
         approvers: ${{ env.OWNER }}
     - name: install app with helm
-      working-directory: helm-charts/python-webserver/
-      run: helm upgrade python-webserver . --install --wait --atomic --create-namespace --namespace=app --timeout=5m --set image.repository=${{ env.REPO }} --set image.tag=${{ inputs.TAG }}
+      working-directory: "helm-charts/${{ env.APP_NAME }}/"
+      run: helm upgrade ${{ env.APP_NAME }} . --install --wait --atomic --create-namespace --namespace=app --timeout=5m --set image.repository=${{ env.REPO }} --set image.tag=${{ inputs.TAG }}
 
   get-app-endpoint:
     needs: [deploy]
