@@ -9,10 +9,12 @@ on:
         type: boolean
 
 env:
+  ENVR: "dev"
+  OWNER: "czm41k"
+  AWS_DEFAULT_REGION: "us-west-1"
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
-  AWS_DEFAULT_REGION: "us-west-1"
-  BUCKET_NAME: "czm41k-terraform-state"
+  BUCKET_NAME: "${OWNER}-terraform-state-${ENVR}"
   KUBE_CONFIG_PATH: /home/runner/.kube/config
 
 jobs:
@@ -45,11 +47,11 @@ jobs:
     #   uses: trstringer/manual-approval@main
     #   with:
     #     secret: ${{ github.TOKEN }}
-    #     approvers: czm41k
+    #     approvers: ${{ env.OWNER }}
     - name: Terraform destroy with mounted kubeconfig
       # https://archive.sweetops.com/terraform/2021/07/
       run: |
-        aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name czm41k-eks-dev
+        aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
         terraform destroy --auto-approve=true
     - if: success() || (always() && ${{inputs.force_destroy}})
       name: Delete S3 bucket

@@ -12,9 +12,11 @@ on:
         type: string
 
 env:
-  REPO: "617686195573.dkr.ecr.us-west-1.amazonaws.com/czm41k-python-webserver-dev"
+  OWNER: "czm41k"
+  ENVR: "dev"
   AWS_REGION: "us-west-1"
-  BUCKET_NAME: "czm41k-terraform-state"
+  REPO: "617686195573.dkr.ecr.us-west-1.amazonaws.com/${OWNER}-python-webserver-${ENVR}"
+  BUCKET_NAME: "${OWNER}-terraform-state"
 
 jobs:
   deploy:
@@ -28,7 +30,7 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
     - name: Generate kubeconfig with aws-cli
-      run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name czm41k-eks-dev
+      run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
     - name: Checkout repo
       uses: actions/checkout@v1
     - name: install helm3
@@ -53,7 +55,7 @@ jobs:
       uses: trstringer/manual-approval@main
       with:
         secret: ${{ github.TOKEN }}
-        approvers: czm41k
+        approvers: ${{ env.OWNER }}
 
     - name: install app with helm
       working-directory: helm-charts/python-webserver/

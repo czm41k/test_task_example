@@ -10,10 +10,10 @@ terraform {
     }
   }
   backend "s3" {
-    bucket         = "czm41k-terraform-state"
+    bucket         = "czm41k-terraform-state-dev"
     key            = "terraform.tfstate"
     region         = "us-west-1"
-    dynamodb_table = "czm41k-terraform-state-lock"
+    dynamodb_table = "czm41k-terraform-state-dev-lock"
   }
   required_version = "1.3.0"
 }

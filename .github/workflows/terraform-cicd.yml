@@ -14,6 +14,8 @@ on:
   workflow_dispatch:
 
 env:
+  OWNER: "czm41k"
+  ENVR: "dev"
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
   AWS_DEFAULT_REGION: "us-west-1"
@@ -47,7 +49,7 @@ jobs:
     #   uses: trstringer/manual-approval@main
     #   with:
     #     secret: ${{ github.TOKEN }}
-    #     approvers: czm41k
+    #     approvers: ${{ env.OWNER }}
     - name: Terraform Apply
       run: terraform apply -auto-approve -input=false
       continue-on-error: true # allow fail for the 1st time
@@ -55,6 +57,6 @@ jobs:
       # https://archive.sweetops.com/terraform/2021/07/
       name: Get kubeconfig mounted and try apply again
       run: |
-        aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name czm41k-eks-dev
+        aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
         terraform apply -auto-approve -input=false
 ...

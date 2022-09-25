@@ -8,22 +8,25 @@ on:
       - '.github/workflows/terraform-prepare*'
   workflow_dispatch:
 
+env:
+  ENVR: dev
+  OWNER: "czm41k"
+  AWS_DEFAULT_REGION: "us-west-1"
+  BUCKET_NAME: "${OWNER}-terraform-${ENVR}-state"
+
 jobs:
   aws:
     name: 'Run aws-cli'
     runs-on: ubuntu-latest
-    env:
-      AWS_REGION: "us-west-1"
-      BUCKET_NAME: "czm41k-terraform-state"
     steps:
     - name: Configure aws-cli
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-region: ${{ env.AWS_REGION }}
+        aws-region: ${{ env.AWS_DEFAULT_REGION }}
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
     - name: Create S3 bucket
-      run: aws s3api create-bucket --bucket ${{ env.BUCKET_NAME }} --create-bucket-configuration LocationConstraint=${{ env.AWS_REGION }}
+      run: aws s3api create-bucket --bucket ${{ env.BUCKET_NAME }} --create-bucket-configuration LocationConstraint=${{ env.AWS_DEFAULT_REGION }}
     - name: Encrypt bucket
       run: |
         aws s3api put-bucket-encryption --bucket ${{ env.BUCKET_NAME }} --server-side-encryption-configuration "{\"Rules\": [{\"ApplyServerSideEncryptionByDefault\":{\"SSEAlgorithm\": \"AES256\"}}]}"

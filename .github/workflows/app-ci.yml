@@ -20,7 +20,9 @@ on:
         type: string
 
 env:
-  REPO: "617686195573.dkr.ecr.us-west-1.amazonaws.com/czm41k-python-webserver-dev"
+  ENV: "dev"
+  OWNER: "czm41k"
+  REPO: "617686195573.dkr.ecr.us-west-1.amazonaws.com/${OWNER}-python-webserver-${ENVR}"
   AWS_REGION: us-west-1
 
 jobs:
