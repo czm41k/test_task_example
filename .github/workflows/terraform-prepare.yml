@@ -5,7 +5,7 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - '.github/workflows/terraform-prepare*'
+      - '.github/workflows/terraform-prepare.yml'
   workflow_dispatch:
 
 jobs:
