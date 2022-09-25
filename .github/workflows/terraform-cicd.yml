@@ -50,6 +50,7 @@ jobs:
     #     approvers: czm41k
     - name: Terraform Apply with mounted kubeconfig
       run: terraform apply -auto-approve -input=false
+      continue-on-error: true # allow fail for the 1st time
     - if: failure()
       # https://archive.sweetops.com/terraform/2021/07/
       name: Get kubeconfig if cluster created and try apply again
