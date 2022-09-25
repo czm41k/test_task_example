@@ -93,12 +93,12 @@ jobs:
     #   with:
     #     secret: ${{ github.TOKEN }}
     #     approvers: ${{ env.OWNER }}
-      - name: Terragrunt apply
-        run: terragrunt apply -auto-approve
-        continue-on-error: true
-      - name: Get kubeconfig mounted and try apply again
-        run: |
-          aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
-          terragrunt apply -auto-approve -var-file="access.tfvars"
+      # - name: Terragrunt apply
+      #   run: terragrunt apply -auto-approve
+      #   continue-on-error: true
+      # - name: Get kubeconfig mounted and try apply again
+      #   run: |
+      #     aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
+      #     terragrunt apply -auto-approve -var-file="access.tfvars"
 
 ...
