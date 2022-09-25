@@ -86,7 +86,9 @@ jobs:
       - name: Terragrunt Init
         run: echo "y"|terragrunt init
       - name: Terragrunt plan
-        run: terragrunt plan
+        run: |
+          aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}" || true
+          terragrunt plan
       - name: Approve before apply
         uses: trstringer/manual-approval@main
         with:
