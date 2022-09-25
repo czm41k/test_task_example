@@ -136,12 +136,10 @@ jobs:
         varFilePath: ./.github/variables/dev-vars.env
     - name: Generate BUCKET_NAME envvar
       run: |
-        if [[ ${{inputs.tool == 'terraform' }} -eq true ]]
+        if [[ ${{inputs.tool == 'terraform' }} == true ]]
         then
-          echo "Tool is terraform"
           BUCKET_NAME="${{env.OWNER}}-${{ inputs.tool }}-${{env.ENVR}}-state"
         else
-          echo "Tool is terragrunt"
           BUCKET_NAME="${{env.OWNER}}-${{ inputs.tool }}-state"
         fi
         echo "BUCKET_NAME=${BUCKET_NAME}" >> $GITHUB_ENV
