@@ -10,11 +10,7 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
     inputs:
-      print_tags:
-        description: 'True to print to STDOUT'
-        required: true
-        type: boolean
-      tags:
+      tag:
         description: 'Image tag'
         required: true
         type: string
@@ -53,16 +49,13 @@ jobs:
     - name: Generate REPO envvar
       run: echo "REPO=617686195573.dkr.ecr.us-west-1.amazonaws.com/${{ env.OWNER }}-python-webserver-${{ env.ENVR }}" >> $GITHUB_ENV
     - uses: actions/checkout@v3
-    - name: print manual tags
-      if: ${{ inputs.print_tags }}
-      run: echo  The tags are ${{ inputs.tags }}
     - name: Set tag
       env:
-        MANUAL_TAG: ${{inputs.tags }}
+        MANUAL_TAG: ${{inputs.tag }}
       run: |
         if [[ $MANUAL_TAG ]]
         then
-          echo "TAG=${{ inputs.tags }}" >> $GITHUB_ENV
+          echo "TAG=${{ inputs.tag }}" >> $GITHUB_ENV
         else
           echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
         fi
