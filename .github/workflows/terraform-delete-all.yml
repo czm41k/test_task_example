@@ -2,6 +2,13 @@
 name: 'Terraform: Destroy all infra'
 on:
   workflow_dispatch:
+    inputs:
+      force_destroy:
+        required: false
+        default: false
+        type: boolean
+        description: "Should we run 2nd job anyway or not"
+
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
@@ -38,6 +45,7 @@ jobs:
 
   destroy_state:
     needs: [terraform-destroy]
+    if: success() || (always() && ${{inputs.force_destroy}})
     name: "Delete terraform remote backend state"
     runs-on: ubuntu-latest
     steps:
