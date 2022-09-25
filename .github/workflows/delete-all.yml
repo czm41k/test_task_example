@@ -100,7 +100,7 @@ jobs:
       continue-on-error: true
 
   delete-remote-state:
-    # if: ${{ inputs.delete_remote }}
+    if: ${{ always() && inputs.delete_remote }}
     needs: [terraform-destroy, terragrunt-destroy]
     runs-on: ubuntu-latest
     steps:
