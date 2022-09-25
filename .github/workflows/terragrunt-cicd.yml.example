@@ -8,9 +8,9 @@ on:
       - 'terragrunt/**'
       - '.github/workflows/terragrunt-cicd.yml'
   pull_request:
-  # workflow_run:
-  #   workflows: ["0-Terraform: Create s3-backend for state"]
-  #   types: ["completed"]
+  workflow_run:
+    workflows: ["0-Terraform: Create s3-backend for state"]
+    types: ["completed"]
   workflow_dispatch:
 
 env:

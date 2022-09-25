@@ -1,5 +1,5 @@
 ---
-name: '1-Terraform CI/CD'
+name: '1-Infrastructure CI/CD'
 
 on:
   push:
@@ -7,18 +7,27 @@ on:
     paths:
       - 'terraform/**'
       - '.github/workflows/terraform-cicd.yml'
-  # pull_request:
-  # workflow_run:
-  #   workflows: ["0-Terraform: Create s3-backend for state"]
-  #   types: ["completed"]
+  pull_request:
+  workflow_run:
+    workflows: ["0-Terraform: Create s3-backend for state"]
+    types: ["completed"]
+    inputs:
   workflow_dispatch:
+    inputs:
+      tool:
+        description: "Which tool to use: terraform or terragrunt"
+        required: true
+        default: "terragrunt"
+        type: string
+
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
 
 jobs:
-  format_and_plan:
+  terraform:
+    if: ${{ ! inputs.tool || inputs.tool == 'terraform' }}
     name: 'Run terraform'
     runs-on: ubuntu-latest
     defaults:
@@ -57,4 +66,44 @@ jobs:
       run: |
         aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
         terraform apply -auto-approve -var-file="access.tfvars"
+
+  terragrunt:
+    if: ${{ inputs.tool == 'terragrunt' }}
+    name: 'Run terragrunt'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terragrunt/dev/eks-infra/
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set Environment Variables
+        uses: ./.github/actions/set-vars
+        with:
+          varFilePath: ./.github/variables/dev-vars.env
+      - name: Setup Terragrunt
+        uses: autero1/action-terragrunt@v1.1.0
+        with:
+          terragrunt_version: ${{ env.terragrunt_version }}
+      - name: Interact with Terragrunt
+        run: terragrunt --version
+      - name: Terragrunt Init
+        run: terragrunt init
+      - name: Terragrunt plan
+        run: terragrunt plan
+
+    # - name: Approve before apply
+    #   uses: trstringer/manual-approval@main
+    #   with:
+    #     secret: ${{ github.TOKEN }}
+    #     approvers: ${{ env.OWNER }}
+      - name: Terragrunt apply
+        run: terragrunt apply -auto-approve
+        continue-on-error: true
+      - name: Get kubeconfig mounted and try apply again
+        run: |
+          aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}"
+          terragrunt apply -auto-approve -var-file="../access.tfvars"
+
 ...
