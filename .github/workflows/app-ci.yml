@@ -76,14 +76,4 @@ jobs:
       run: docker push ${{ env.REPO }}:${{ env.TAG }}
     outputs:
       TAG: ${{ steps.set-tag.outputs.TAG }}
-
-#   call-deploy:
-#     needs: [build]
-#     name: Call app deployment workflow
-#     uses: czm41k/naviteq_private/.github/workflows/app-cd.yml@main
-#     with:
-#       tag: ${{ needs.build.outputs.TAG }}
-# #       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-# #       aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-# #       secret: ${{ github.TOKEN }}
 ...
