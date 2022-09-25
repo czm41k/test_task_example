@@ -1,14 +1,20 @@
 ---
 name: '3-App: Deploy with helm'
 on:
-  workflow_run:
-    workflows: ["2-App: Check, build and upload artifact"]
-    types: ["completed"]
+  # workflow_run:
+  #   workflows: ["2-App: Check, build and upload artifact"]
+  #   types: ["completed"]
+  workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
+        description: 'Image tag'
   workflow_dispatch:
     inputs:
       tag:
         description: 'Image tag'
-        required: false
+        required: true
         type: string
 
 env:
@@ -19,12 +25,13 @@ env:
 jobs:
   deploy:
     runs-on: 'ubuntu-latest'
-    if: ${{ github.event.workflow_run.conclusion == 'success' }} or ${{ inputs.tag }}
+    if: ${{ inputs.tag }}
     steps:
     - name: Generate REPO & BUCKET_NAME envvars
       run: |
         echo "REPO=617686195573.dkr.ecr.us-west-1.amazonaws.com/${{ env.OWNER }}-python-webserver-${{ env.ENVR }}" >> $GITHUB_ENV
         echo "BUCKET_NAME=${{env.OWNER}}-terraform-${{env.ENVR}}-state" >> $GITHUB_ENV
+        echo "TAG=${{ inputs.tag }}" >> $GITHUB_ENV
     - name: Configure aws-cli
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -39,17 +46,17 @@ jobs:
       uses: azure/setup-helm@v3
       with:
         version: '3.9.4'
-    - name: Set tag
-      env:
-        MANUAL_TAG: ${{ inputs.tag }}
-      run: |
-        if [[ $MANUAL_TAG ]]
-        then
-          echo "TAG=${{ inputs.tag }}" >> $GITHUB_ENV
-        else
-          echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
-        fi
-        echo ${{ env.TAG }}
+    # - name: Set tag
+    #   env:
+    #     MANUAL_TAG: ${{ inputs.tag }}
+    #   run: |
+    #     if [[ $MANUAL_TAG ]]
+    #     then
+    #       echo "TAG=${{ inputs.tag }}" >> $GITHUB_ENV
+    #     else
+    #       echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+    #     fi
+    #     echo ${{ env.TAG }}
     - name: install app with helm --dry-run
       working-directory: helm-charts/python-webserver/
       run: helm upgrade python-webserver . --install --wait --atomic --dry-run --create-namespace --namespace=app --timeout=5m --set image.repository=${{ env.REPO }} --set image.tag=${{ env.TAG }}
