@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: terraform/dev/
+        working-directory: terragrunt/dev/eks-infra/
         shell: bash
     steps:
     - name: Checkout repo
