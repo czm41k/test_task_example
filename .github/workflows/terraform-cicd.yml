@@ -41,6 +41,8 @@ jobs:
     - name: Terraform Format
       run: terraform fmt -check
     - name: Terraform plan with changes detection
+      env: 
+        TF_LOG: WARNING
       run: |
         terraform plan -input=false -detailed-exitcode -json
         # || CODE=$?
