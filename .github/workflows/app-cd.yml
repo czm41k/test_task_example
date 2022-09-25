@@ -17,13 +17,14 @@ on:
         required: true
         type: string
 
+env:
+  OWNER: "czm41k"
+  ENVR: "dev"
+  AWS_REGION: "us-west-1"
+  APP_NAME: "python-webserver"
 
 jobs:
   deploy:
-    env:
-      OWNER: "czm41k"
-      ENVR: "dev"
-      AWS_REGION: "us-west-1"
     runs-on: 'ubuntu-latest'
     if: ${{ inputs.tag }}
     steps:
@@ -46,17 +47,6 @@ jobs:
       uses: azure/setup-helm@v3
       with:
         version: '3.9.4'
-    # - name: Set tag
-    #   env:
-    #     MANUAL_TAG: ${{ inputs.tag }}
-    #   run: |
-    #     if [[ $MANUAL_TAG ]]
-    #     then
-    #       echo "TAG=${{ inputs.tag }}" >> $GITHUB_ENV
-    #     else
-    #       echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_ENV
-    #     fi
-    #     echo ${{ env.TAG }}
     - name: install app with helm --dry-run
       working-directory: helm-charts/python-webserver/
       run: helm upgrade python-webserver . --install --wait --atomic --dry-run --create-namespace --namespace=app --timeout=5m --set image.repository=${{ env.REPO }} --set image.tag=${{ inputs.TAG }}
@@ -65,8 +55,9 @@ jobs:
       with:
         secret: ${{ github.TOKEN }}
         approvers: ${{ env.OWNER }}
-
     - name: install app with helm
       working-directory: helm-charts/python-webserver/
       run: helm upgrade python-webserver . --install --wait --atomic --create-namespace --namespace=app --timeout=5m --set image.repository=${{ env.REPO }} --set image.tag=${{ inputs.TAG }}
+    - name: Get app endpoint
+      run: kubectl -n app get svc ${{ env.APP_NAME }} --output jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 ...
