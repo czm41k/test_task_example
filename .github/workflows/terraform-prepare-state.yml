@@ -8,11 +8,6 @@ on:
       - '.github/workflows/terraform-prepare*'
   workflow_dispatch:
 
-# env:
-#   ENVR: dev
-#   OWNER: "czm41k"
-#   AWS_DEFAULT_REGION: "us-west-1"
-
 jobs:
   aws:
     name: 'Run aws-cli'

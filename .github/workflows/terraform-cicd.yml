@@ -13,13 +13,9 @@ on:
     types: ["completed"]
   workflow_dispatch:
 
-# env:
-#   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-#   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
-  # OWNER: "czm41k"
-  # ENVR: "dev"
-  # AWS_DEFAULT_REGION: "us-west-1"
-  # KUBE_CONFIG_PATH: /home/runner/.kube/config
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
 
 jobs:
   format_and_plan:

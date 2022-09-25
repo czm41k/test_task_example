@@ -12,11 +12,6 @@ on:
         required: true
         type: string
 
-# env:
-#   ENVR: "dev"
-#   OWNER: "czm41k"
-#   AWS_REGION: us-west-1
-
 jobs:
   lint:
     runs-on: ubuntu-22.04

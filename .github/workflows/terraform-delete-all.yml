@@ -11,10 +11,6 @@ on:
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
-#   ENVR: "dev"
-#   OWNER: "czm41k"
-#   AWS_DEFAULT_REGION: "us-west-1"
-#   KUBE_CONFIG_PATH: /home/runner/.kube/config
 
 jobs:
   terraform-destroy:
