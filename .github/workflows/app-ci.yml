@@ -68,7 +68,7 @@ jobs:
       run: aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.REPO }}
     - name: Upload to Registry
       run: docker push ${{ env.REPO }}:${{ env.TAG }}
-    - name: Call deploy with helm
+    - name: Call deploy with helm workflow
       uses: ./.github/workflows/app-cd.yml
       with:
         tag: ${{ env.TAG }}
