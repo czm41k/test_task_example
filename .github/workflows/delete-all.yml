@@ -123,7 +123,6 @@ jobs:
       run: |
         aws eks update-kubeconfig --region ${{ env.AWS_DEFAULT_REGION }} --name "${{ env.OWNER }}-eks-${{ env.ENVR }}" || true
         terraform destroy --auto-approve=true
-      continue-on-error: true
 
   delete-remote-state:
     if: ${{ always() && inputs.delete_remote }}
