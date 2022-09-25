@@ -30,7 +30,7 @@ jobs:
         varFilePath: ./.github/variables/dev-vars.env
     - name: Generate REPO & BUCKET_NAME envvars
       run: |
-        echo "REPO=617686195573.dkr.ecr.us-west-1.amazonaws.com/${{ env.OWNER }}-${{ env.APP_NAME }}-${{ env.ENVR }}" >> $GITHUB_ENV
+        echo "REPO=${{ env.ECR }}/${{ env.OWNER }}-${{ env.APP_NAME }}-${{ env.ENVR }}" >> $GITHUB_ENV
         echo "BUCKET_NAME=${{env.OWNER}}-terraform-${{env.ENVR}}-state" >> $GITHUB_ENV
         echo "TAG=${{ inputs.tag }}" >> $GITHUB_ENV
     - name: Configure aws-cli

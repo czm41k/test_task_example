@@ -44,7 +44,7 @@ jobs:
       with:
         varFilePath: ./.github/variables/dev-vars.env
     - name: Generate REPO envvar
-      run: echo "REPO=617686195573.dkr.ecr.us-west-1.amazonaws.com/${{ env.OWNER }}-${{ env.APP_NAME }}-${{ env.ENVR }}" >> $GITHUB_ENV
+      run: echo "REPO=${{ env.ECR }}/${{ env.OWNER }}-${{ env.APP_NAME }}-${{ env.ENVR }}" >> $GITHUB_ENV
     - name: Set tag
       id: set-tag
       env:
