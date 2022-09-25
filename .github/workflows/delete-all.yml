@@ -153,11 +153,13 @@ jobs:
     - name: Delete dynamodb table
       run: aws dynamodb delete-table --table-name "${{ env.BUCKET_NAME }}-lock"
       continue-on-error: true
-    - name: Delete all object in S3 state bucket
+    - name: Delete all object & delete markers in S3 state bucket
       run: |
         aws s3api delete-objects --bucket ${{ env.BUCKET_NAME }} --delete \
           "$(aws s3api list-object-versions --bucket ${{ env.BUCKET_NAME }} | \
             jq '{Objects: [.Versions[] | {Key:.Key, VersionId : .VersionId}], Quiet: false}')"
+        aws s3api delete-objects --bucket ${{ env.BUCKET_NAME }} --delete \
+          "$(aws s3api list-object-versions --bucket ${{ env.BUCKET_NAME }} --query='{Objects: DeleteMarkers[].{Key:Key,VersionId:VersionId}}')"
     - name: Delete S3 state bucket
       run: aws s3 rb s3://${{ env.BUCKET_NAME }} --force
 ...
