@@ -36,6 +36,8 @@ jobs:
       uses: ./.github/actions/set-vars
       with:
         varFilePath: ./.github/variables/dev-vars.env
+    - name: Check env vars
+      run: echo "Repo_Name=${{ env.REPO_NAME }} / Event=${{ env.EVENT }}"
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
