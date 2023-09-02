@@ -1,12 +1,7 @@
-<h1 align="center">
-Naviteq Practical Task for Senior DevOps Engineer🤘
-</h1>
 
-![alt text](https://naviteq-banner.s3.eu-west-1.amazonaws.com/banner%201.png)
 
 ### Account information
 - AWS Account - Naviteq Devops recruitment
-- Interviewer name - `Evgenii Tselikov`
 - Username/password/secret key and other credentials can be found at [./new_user_credentials.csv](new_user_credentials.csv)
 - Time estimation - 3-5 days
 - Region to work - US West (N. California) `us-west-1`
